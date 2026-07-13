@@ -1,0 +1,66 @@
+.wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.sm .mascot {
+  width: 48px;
+  height: 54px;
+}
+
+.md .mascot {
+  width: 72px;
+  height: 81px;
+}
+
+.lg .mascot {
+  width: 100px;
+  height: 112px;
+}
+
+.speech {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 8px;
+  background: var(--color-white);
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: var(--color-text);
+  white-space: nowrap;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-border);
+}
+
+.speech::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--color-white);
+}
+
+@keyframes wave {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(15deg);
+  }
+}
+
+.wave {
+  transform-origin: 62px 35px;
+  animation: wave 1.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wave {
+    animation: none;
+  }
+}

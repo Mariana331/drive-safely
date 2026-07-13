@@ -1,0 +1,135 @@
+.section {
+  padding: var(--spacing-3xl) 0;
+  background: var(--color-white);
+}
+
+.heading {
+  font-size: 28px;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+  letter-spacing: -0.02em;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stepInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 280px;
+  padding: var(--spacing-md) 0;
+}
+
+.iconWrap {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--spacing-sm);
+  border: 2px solid var(--color-border);
+}
+
+.stepNumber {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--spacing-sm);
+}
+
+.stepTitle {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: var(--spacing-xs);
+}
+
+.stepDesc {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.connector {
+  width: 2px;
+  height: 32px;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--color-border) 0,
+    var(--color-border) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+}
+
+@media screen and (min-width: 768px) {
+  .heading {
+    font-size: 32px;
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-xl);
+  }
+
+  .connector {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .steps {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+  }
+
+  .step {
+    flex: 1;
+    flex-direction: row;
+  }
+
+  .connector {
+    display: block;
+    position: absolute;
+    top: 32px;
+    left: calc(50% + 32px);
+    width: calc(100% - 64px);
+    height: 2px;
+    background: repeating-linear-gradient(
+      to right,
+      var(--color-border) 0,
+      var(--color-border) 6px,
+      transparent 6px,
+      transparent 12px
+    );
+  }
+
+  .step:last-child .connector {
+    display: none;
+  }
+}

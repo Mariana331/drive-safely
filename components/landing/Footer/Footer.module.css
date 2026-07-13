@@ -1,0 +1,136 @@
+.footer {
+  background: var(--color-footer-bg);
+  color: var(--color-footer-text);
+  padding: var(--spacing-3xl) 0 var(--spacing-xl);
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xl);
+}
+
+.top {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xl);
+}
+
+.brand {
+  max-width: 280px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-white);
+  margin-bottom: var(--spacing-md);
+}
+
+.logo:hover {
+  opacity: 1;
+}
+
+.tagline {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-footer-text);
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-xl);
+}
+
+.columnTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-white);
+  margin-bottom: var(--spacing-md);
+}
+
+.linkList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.link {
+  font-size: 14px;
+  color: var(--color-footer-text);
+}
+
+.link:hover {
+  color: var(--color-white);
+  opacity: 1;
+}
+
+.socialIcons {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--color-footer-text);
+  transition: background 0.2s ease;
+}
+
+.socialLink:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--color-white);
+  opacity: 1;
+}
+
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--spacing-xl);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.copyright {
+  font-size: 13px;
+}
+
+@media screen and (min-width: 768px) {
+  .columns {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .top {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--spacing-2xl);
+  }
+
+  .social {
+    grid-column: 1 / -1;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .top {
+    grid-template-columns: 1.2fr 2fr 0.8fr;
+    align-items: start;
+  }
+
+  .columns {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .social {
+    grid-column: auto;
+  }
+}

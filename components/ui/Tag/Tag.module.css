@@ -1,0 +1,22 @@
+.tag {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.newLaw {
+  background: #fef9c3;
+  color: #a16207;
+}
+
+.update {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.reminder {
+  background: #fee2e2;
+  color: #b91c1c;
+}
