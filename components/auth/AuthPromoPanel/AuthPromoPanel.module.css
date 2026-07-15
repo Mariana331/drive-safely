@@ -1,0 +1,153 @@
+.panel {
+  position: relative;
+  min-height: 100%;
+  background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 60%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'%3E%3Crect fill='%231e40af' width='800' height='600'/%3E%3Cpath d='M0 400 Q200 350 400 400 T800 400 L800 600 L0 600Z' fill='%23166534' opacity='0.5'/%3E%3C/svg%3E");
+  background-size: cover;
+  background-position: center;
+  color: white;
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+  max-width: 480px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: white;
+}
+
+.logo:hover {
+  opacity: 1;
+}
+
+.brand {
+  display: block;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.tagline {
+  display: block;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.heading {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.subheading {
+  font-size: 16px;
+  opacity: 0.85;
+  line-height: 1.5;
+  margin-top: 8px;
+}
+
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.featureCard {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  border-radius: var(--radius-button);
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.featureIcon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.featureCard strong {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.featureCard p {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.testimonial {
+  display: flex;
+  gap: 14px;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: var(--radius-card);
+  padding: var(--spacing-md);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: auto;
+}
+
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.stars {
+  color: #fbbf24;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.quote {
+  font-size: 13px;
+  line-height: 1.5;
+  opacity: 0.9;
+  margin-bottom: 6px;
+}
+
+.author {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+@media screen and (max-width: 767px) {
+  .panel {
+    padding: var(--spacing-lg);
+    min-height: auto;
+  }
+
+  .features,
+  .testimonial {
+    display: none;
+  }
+
+  .heading {
+    font-size: 24px;
+  }
+}

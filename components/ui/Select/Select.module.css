@@ -1,0 +1,35 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.select {
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-button);
+  background: var(--color-white);
+  padding: 12px 14px;
+  font-size: 14px;
+  color: var(--color-text);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.select:focus {
+  border-color: var(--color-primary);
+}
+
+.hasError {
+  border-color: var(--color-accent-red);
+}
+
+.error {
+  font-size: 12px;
+  color: var(--color-accent-red);
+}

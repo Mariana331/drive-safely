@@ -1,0 +1,36 @@
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: 100vh;
+}
+
+.promo {
+  display: none;
+}
+
+.form {
+  background: var(--color-white);
+  overflow-y: auto;
+}
+
+@media screen and (min-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .promo {
+    display: block;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .promo {
+    display: block;
+    max-height: 280px;
+    overflow: hidden;
+  }
+
+  .layout {
+    grid-template-rows: auto 1fr;
+  }
+}

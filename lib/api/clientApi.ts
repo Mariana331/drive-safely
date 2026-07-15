@@ -1,17 +1,9 @@
-import { apiFetch } from './api';
+import { apiFetch, type AuthResponse, type RegisterPayload } from './api';
 
-interface AuthResponse {
-  token: null;
-  user: null;
-}
-
-export async function register(
-  email: string,
-  password: string,
-): Promise<AuthResponse> {
+export async function register(data: RegisterPayload): Promise<AuthResponse> {
   return apiFetch<AuthResponse>('/api/auth/register', {
     method: 'POST',
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify(data),
   });
 }
 
@@ -23,4 +15,12 @@ export async function login(
     method: 'POST',
     body: JSON.stringify({ email, password }),
   });
+}
+
+export async function logout(): Promise<void> {
+  await apiFetch('/api/auth/logout', { method: 'POST' });
+}
+
+export async function getMe(): Promise<AuthResponse> {
+  return apiFetch<AuthResponse>('/api/auth/me');
 }
