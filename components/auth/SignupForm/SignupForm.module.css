@@ -2,6 +2,19 @@
   padding: var(--spacing-2xl);
   overflow-y: auto;
   height: 100%;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  background: var(--color-white);
+  box-shadow: var(--shadow-card);
+}
+
+@media screen and (min-width: 1024px) {
+  .wrap {
+    margin: var(--spacing-xl);
+    border-radius: var(--radius-card);
+    height: calc(100% - var(--spacing-xl) * 2);
+  }
 }
 
 .header {

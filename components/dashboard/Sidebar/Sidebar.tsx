@@ -41,7 +41,10 @@ export default function Sidebar() {
       <aside className={`${styles.sidebar} ${open ? styles.open : ''}`}>
         <Link href="/" className={styles.logo} onClick={() => setOpen(false)}>
           <ShieldIcon size={28} />
-          <span>DriveSafely</span>
+          <div>
+            <span className={styles.brandName}>DriveSafely</span>
+            <span className={styles.brandTagline}>Drive smarter. Stay safer.</span>
+          </div>
         </Link>
 
         <nav className={styles.nav}>
@@ -51,7 +54,10 @@ export default function Sidebar() {
                 <Link
                   href={item.href}
                   className={`${styles.navLink} ${
-                    pathname === item.href ? styles.active : ''
+                    pathname === item.href ||
+                    (item.href !== '/' && pathname.startsWith(item.href))
+                      ? styles.active
+                      : ''
                   }`}
                   onClick={() => setOpen(false)}
                 >

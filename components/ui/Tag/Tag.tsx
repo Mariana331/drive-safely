@@ -9,6 +9,10 @@ const categoryClass: Record<NewsCategory, string> = {
   'New Law': styles.newLaw,
   Update: styles.update,
   Reminder: styles.reminder,
+  'Traffic News': styles.trafficNews,
+  'Road Safety': styles.roadSafety,
+  'Traffic Laws': styles.trafficLaws,
+  'AI & Automotive': styles.aiAutomotive,
 };
 
 export default function Tag({ category }: TagProps) {

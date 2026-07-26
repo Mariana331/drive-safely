@@ -69,7 +69,12 @@ export default function AuthPromoPanel() {
               &ldquo;DriveSafely helped me understand my mistakes and become a
               more confident driver.&rdquo;
             </p>
-            <span className={styles.author}>Sarah K.</span>
+            <span className={styles.author}>- Sarah K.</span>
+            <div className={styles.pagination} aria-hidden="true">
+              <span className={`${styles.dot} ${styles.dotActive}`} />
+              <span className={styles.dot} />
+              <span className={styles.dot} />
+            </div>
           </div>
         </div>
       </div>

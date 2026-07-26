@@ -7,6 +7,16 @@
   max-width: 440px;
   margin: 0 auto;
   width: 100%;
+  background: var(--color-white);
+  box-shadow: var(--shadow-card);
+}
+
+@media screen and (min-width: 1024px) {
+  .wrap {
+    margin: var(--spacing-xl) auto;
+    border-radius: var(--radius-card);
+    height: calc(100% - var(--spacing-xl) * 2);
+  }
 }
 
 .header {

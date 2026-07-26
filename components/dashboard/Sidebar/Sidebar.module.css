@@ -47,11 +47,23 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 18px;
-  font-weight: 700;
   color: var(--color-text);
   padding-bottom: var(--spacing-md);
   border-bottom: 1px solid var(--color-border);
+}
+
+.brandName {
+  display: block;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.brandTagline {
+  display: block;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  font-weight: 400;
+  margin-top: 2px;
 }
 
 .nav {
@@ -82,8 +94,8 @@
 }
 
 .active {
-  background: #eff6ff;
-  color: var(--color-primary);
+  background: var(--color-primary);
+  color: white;
   font-weight: 600;
 }
 

@@ -1,4 +1,12 @@
-export type NewsCategory = 'New Law' | 'Update' | 'Reminder';
+export type NewsCategory =
+  | 'Traffic News'
+  | 'Road Safety'
+  | 'Traffic Laws'
+  | 'AI & Automotive'
+  | 'New Law'
+  | 'Update'
+  | 'Reminder';
+
 export type ExperienceLevel = 'new' | 'experienced' | 'professional';
 
 export interface NewsArticle {
@@ -8,8 +16,19 @@ export interface NewsArticle {
   excerpt: string;
   category: NewsCategory;
   imageUrl: string;
+  readTimeMinutes?: number;
+  country?: string;
   publishedAt: string;
   isPublished: boolean;
+}
+
+export interface NewsListResponse {
+  articles: NewsArticle[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+  categoryCounts: Record<string, number>;
 }
 
 export interface UserStats {

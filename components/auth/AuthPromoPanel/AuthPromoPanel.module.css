@@ -1,8 +1,9 @@
 .panel {
   position: relative;
   min-height: 100%;
-  background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 60%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'%3E%3Crect fill='%231e40af' width='800' height='600'/%3E%3Cpath d='M0 400 Q200 350 400 400 T800 400 L800 600 L0 600Z' fill='%23166534' opacity='0.5'/%3E%3C/svg%3E");
+  background-color: #0f172a;
+  background-image: url('/images/auth-mountain-road.jpg'),
+    url('https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1600&q=80');
   background-size: cover;
   background-position: center;
   color: white;
@@ -14,7 +15,12 @@
 .overlay {
   position: absolute;
   inset: 0;
-  background: rgba(15, 23, 42, 0.55);
+  background: linear-gradient(
+    180deg,
+    rgba(15, 23, 42, 0.15) 0%,
+    rgba(15, 23, 42, 0.35) 45%,
+    rgba(15, 23, 42, 0.72) 100%
+  );
 }
 
 .content {
@@ -72,27 +78,51 @@
   display: flex;
   align-items: center;
   gap: 14px;
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(8px);
+  background: var(--color-white);
+  color: var(--color-text);
   border-radius: var(--radius-button);
   padding: 14px 16px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: none;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.14);
 }
 
 .featureIcon {
-  font-size: 24px;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
   flex-shrink: 0;
+}
+
+.purple .featureIcon {
+  background: #f5f3ff;
+}
+
+.green .featureIcon {
+  background: #f0fdf4;
+}
+
+.orange .featureIcon {
+  background: #fffbeb;
+}
+
+.blue .featureIcon {
+  background: #eff6ff;
 }
 
 .featureCard strong {
   display: block;
   font-size: 14px;
   margin-bottom: 2px;
+  color: var(--color-text);
 }
 
 .featureCard p {
   font-size: 12px;
-  opacity: 0.8;
+  color: var(--color-text-muted);
 }
 
 .testimonial {
@@ -134,6 +164,24 @@
 .author {
   font-size: 12px;
   opacity: 0.7;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.dotActive {
+  background: var(--color-primary);
 }
 
 @media screen and (max-width: 767px) {
