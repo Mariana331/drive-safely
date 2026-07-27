@@ -134,8 +134,7 @@ export function getApiBaseUrl(): string {
 
   return (
     process.env.API_INTERNAL_URL ??
-    configured ||
-    'http://localhost:3002'
+    (configured || 'http://localhost:3002')
   );
 }
 

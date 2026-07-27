@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import styles from './legal.module.css';
+import styles from '../legal.module.css';
 
 export const metadata = {
   title: 'Terms of Service — DriveSafely',
