@@ -1,26 +1,53 @@
 .wrapper {
   position: relative;
   width: 100%;
-  max-width: 480px;
-  margin: 0 auto;
+  height: 100%;
+}
+
+.background {
+  max-width: none;
+  margin: 0;
 }
 
 .scene {
   width: 100%;
-  height: auto;
+  height: 100%;
+  display: block;
+}
+
+.wrapper:not(.background) .scene {
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
 }
 
-.driveyCard {
-  position: absolute;
-  bottom: 16px;
-  right: -8px;
+.wrapper:not(.background) {
+  max-width: 480px;
+  margin: 0 auto;
 }
 
-@media screen and (min-width: 768px) {
-  .driveyCard {
-    right: -16px;
-    bottom: 24px;
+.wrapper:not(.background) .scene {
+  height: auto;
+}
+
+.mascotFloat {
+  position: absolute;
+  top: 18%;
+  right: 22%;
+  filter: drop-shadow(0 8px 20px rgba(37, 99, 235, 0.25));
+  z-index: 2;
+}
+
+@media screen and (max-width: 1023px) {
+  .background .mascotFloat {
+    top: 12%;
+    right: 8%;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .mascotFloat {
+    top: 10%;
+    right: 6%;
+    transform: scale(0.85);
   }
 }

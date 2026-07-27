@@ -125,8 +125,19 @@ export interface ApiResponse<T> {
   data?: T;
 }
 
-export const API_URL =
-  process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3002';
+export function getApiBaseUrl(): string {
+  const configured = process.env.NEXT_PUBLIC_API_URL?.trim();
+
+  if (typeof window !== 'undefined') {
+    return configured || '';
+  }
+
+  return (
+    process.env.API_INTERNAL_URL ??
+    configured ||
+    'http://localhost:3002'
+  );
+}
 
 export class ApiError extends Error {
   constructor(
@@ -142,18 +153,32 @@ export async function apiFetch<T>(
   endpoint: string,
   options?: RequestInit,
 ): Promise<T> {
-  const url = `${API_URL}${endpoint}`;
+  const baseUrl = getApiBaseUrl();
+  const url = `${baseUrl}${endpoint}`;
 
-  const response = await fetch(url, {
-    credentials: 'include',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options?.headers,
-    },
-  });
+  let response: Response;
+  try {
+    response = await fetch(url, {
+      credentials: 'include',
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        ...options?.headers,
+      },
+    });
+  } catch {
+    throw new ApiError(
+      0,
+      'Cannot connect to the server. Start the backend: cd drive-safely-node.js && npm run dev',
+    );
+  }
 
-  const json: ApiResponse<T> = await response.json();
+  let json: ApiResponse<T>;
+  try {
+    json = await response.json();
+  } catch {
+    throw new ApiError(response.status, 'Unexpected server response');
+  }
 
   if (!response.ok) {
     throw new ApiError(response.status, json.message ?? 'Request failed');

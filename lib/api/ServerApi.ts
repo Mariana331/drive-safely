@@ -1,10 +1,10 @@
 import { cookies } from 'next/headers';
 import {
   apiFetch,
+  getApiBaseUrl,
   type NewsArticle,
   type NewsListResponse,
   type ProfileData,
-  API_URL,
 } from './api';
 import { FALLBACK_NEWS, countByCategory } from '@/lib/news/newsData';
 
@@ -92,7 +92,7 @@ export async function getProfile(): Promise<ProfileData | null> {
 
     if (!token) return null;
 
-    const response = await fetch(`${API_URL}/api/users/me/profile`, {
+    const response = await fetch(`${getApiBaseUrl()}/api/users/me/profile`, {
       headers: {
         Cookie: `token=${token}`,
       },

@@ -8,8 +8,20 @@ const avatars = ['#3B82F6', '#22C55E', '#F59E0B', '#8B5CF6'];
 export default function Hero() {
   return (
     <section id="home" className={styles.hero}>
+      <div className={styles.heroBg}>
+        <HeroIllustration variant="background" />
+      </div>
+
+      <div className={styles.wave} aria-hidden="true" />
+
       <div className={`container_beforeAuth ${styles.inner}`}>
         <div className={styles.content}>
+          <div className={styles.badge}>
+            <span className={styles.badgeIcon}>🛡️</span>
+            <span>AI-Powered Road Safety Assistant</span>
+            <span className={styles.badgeStar}>★</span>
+          </div>
+
           <h1 className={styles.title}>
             Drive <span className={styles.accentBlue}>smarter.</span>
             <br />
@@ -43,9 +55,6 @@ export default function Hero() {
               Join <strong>25,000+</strong> drivers making roads safer.
             </p>
           </div>
-        </div>
-        <div className={styles.illustration}>
-          <HeroIllustration />
         </div>
       </div>
     </section>
