@@ -42,7 +42,10 @@ export default function Sidebar() {
         <Link href="/" className={styles.logo} onClick={() => setOpen(false)}>
           <ShieldIcon size={28} />
           <div>
-            <span className={styles.brandName}>DriveSafely</span>
+            <span className={styles.brandName}>
+              <span className={styles.brandDrive}>Drive</span>
+              <span className={styles.brandSafely}>Safely</span>
+            </span>
             <span className={styles.brandTagline}>Drive smarter. Stay safer.</span>
           </div>
         </Link>

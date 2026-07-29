@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ShieldIcon } from '@/components/icons';
+import AuthPromoBackground from './AuthPromoBackground';
 import styles from './AuthPromoPanel.module.css';
 
 const features = [
@@ -32,12 +33,16 @@ const features = [
 export default function AuthPromoPanel() {
   return (
     <div className={styles.panel}>
+      <AuthPromoBackground />
       <div className={styles.overlay} />
       <div className={styles.content}>
         <Link href="/" className={styles.logo}>
           <ShieldIcon size={32} />
           <div>
-            <span className={styles.brand}>DriveSafely</span>
+            <span className={styles.brand}>
+              <span className={styles.brandDrive}>Drive</span>
+              <span className={styles.brandSafely}>Safely</span>
+            </span>
             <span className={styles.tagline}>Drive smarter. Stay safer.</span>
           </div>
         </Link>

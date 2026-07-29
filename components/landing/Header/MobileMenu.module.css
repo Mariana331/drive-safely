@@ -60,6 +60,60 @@
   font-weight: 600;
 }
 
+.userCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-button);
+  background: var(--color-bg);
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.userName {
+  display: block;
+  font-size: 14px;
+  color: var(--color-text);
+}
+
+.userEmail {
+  display: block;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.logoutBtn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-button);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  background: var(--color-white);
+}
+
+.logoutBtn:hover {
+  color: var(--color-accent-red);
+  border-color: var(--color-accent-red);
+}
+
 .hamburger {
   display: flex;
   flex-direction: column;

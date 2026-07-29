@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useAuth } from '@/lib/auth/AuthProvider';
 import styles from './MobileMenu.module.css';
 
 const navLinks = [
@@ -17,8 +18,24 @@ interface MobileMenuProps {
   onClose: () => void;
 }
 
+function getInitials(name: string) {
+  return name
+    .split(' ')
+    .map((part) => part[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
+}
+
 export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
+  const { user, loading, logout } = useAuth();
+
   if (!isOpen) return null;
+
+  const handleLogout = async () => {
+    onClose();
+    await logout();
+  };
 
   return (
     <div className={styles.overlay}>
@@ -32,13 +49,31 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             </li>
           ))}
         </ul>
+
         <div className={styles.actions}>
-          <Link href="/login" className={styles.loginBtn} onClick={onClose}>
-            Log in
-          </Link>
-          <Link href="/signup" className={styles.signupBtn} onClick={onClose}>
-            Sign Up
-          </Link>
+          {loading ? null : user ? (
+            <>
+              <Link href="/profile" className={styles.userCard} onClick={onClose}>
+                <span className={styles.avatar}>{getInitials(user.fullName)}</span>
+                <span>
+                  <strong className={styles.userName}>{user.fullName}</strong>
+                  <span className={styles.userEmail}>{user.email}</span>
+                </span>
+              </Link>
+              <button type="button" className={styles.logoutBtn} onClick={handleLogout}>
+                Log out
+              </button>
+            </>
+          ) : (
+            <>
+              <Link href="/login" className={styles.loginBtn} onClick={onClose}>
+                Log in
+              </Link>
+              <Link href="/signup" className={styles.signupBtn} onClick={onClose}>
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
       </nav>
     </div>

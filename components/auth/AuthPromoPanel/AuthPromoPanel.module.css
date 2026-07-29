@@ -1,31 +1,40 @@
 .panel {
   position: relative;
   min-height: 100%;
-  background-color: #0f172a;
-  background-image: url('/images/auth-mountain-road.jpg'),
-    url('https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1600&q=80');
-  background-size: cover;
-  background-position: center;
+  background-color: #87ceeb;
   color: white;
   padding: var(--spacing-xl);
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+}
+
+.bgWrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.bgImage {
+  object-fit: cover;
+  object-position: center center;
 }
 
 .overlay {
   position: absolute;
   inset: 0;
+  z-index: 1;
   background: linear-gradient(
     180deg,
-    rgba(15, 23, 42, 0.15) 0%,
-    rgba(15, 23, 42, 0.35) 45%,
-    rgba(15, 23, 42, 0.72) 100%
+    rgba(15, 23, 42, 0.05) 0%,
+    rgba(15, 23, 42, 0.18) 45%,
+    rgba(15, 23, 42, 0.62) 100%
   );
 }
 
 .content {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xl);
@@ -44,9 +53,19 @@
 }
 
 .brand {
-  display: block;
+  display: inline-flex;
+  align-items: baseline;
   font-size: 20px;
-  font-weight: 700;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.brandDrive {
+  color: #ffffff;
+}
+
+.brandSafely {
+  color: #93c5fd;
 }
 
 .tagline {

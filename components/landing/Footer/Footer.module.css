@@ -24,10 +24,24 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--color-white);
   margin-bottom: var(--spacing-md);
+}
+
+.logoText {
+  display: inline-flex;
+  align-items: baseline;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-white);
+}
+
+.logoDrive {
+  color: var(--color-white);
+}
+
+.logoSafely {
+  color: #60a5fa;
 }
 
 .logo:hover {

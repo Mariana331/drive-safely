@@ -15,6 +15,10 @@
   display: block;
 }
 
+.background .scene {
+  object-fit: cover;
+}
+
 .wrapper:not(.background) .scene {
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
@@ -31,8 +35,8 @@
 
 .mascotFloat {
   position: absolute;
-  top: 18%;
-  right: 22%;
+  top: 13%;
+  left: 15%;
   filter: drop-shadow(0 8px 20px rgba(37, 99, 235, 0.25));
   z-index: 2;
 }
@@ -40,14 +44,14 @@
 @media screen and (max-width: 1023px) {
   .background .mascotFloat {
     top: 12%;
-    right: 8%;
+    left: 12%;
   }
 }
 
 @media screen and (max-width: 767px) {
   .mascotFloat {
     top: 10%;
-    right: 6%;
+    left: 10%;
     transform: scale(0.85);
   }
 }

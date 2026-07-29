@@ -67,7 +67,10 @@ export default function Footer() {
           <div className={styles.brand}>
             <Link href="/" className={styles.logo}>
               <ShieldIcon size={28} />
-              <span>DriveSafely</span>
+              <span className={styles.logoText}>
+                <span className={styles.logoDrive}>Drive</span>
+                <span className={styles.logoSafely}>Safely</span>
+              </span>
             </Link>
             <p className={styles.tagline}>
               AI-powered driver safety platform helping you become a better driver

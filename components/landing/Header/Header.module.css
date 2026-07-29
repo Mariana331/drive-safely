@@ -19,10 +19,24 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 18px;
-  font-weight: 700;
   color: var(--color-text);
   flex-shrink: 0;
+}
+
+.logoText {
+  display: inline-flex;
+  align-items: baseline;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.logoDrive {
+  color: #0f172a;
+}
+
+.logoSafely {
+  color: var(--color-primary);
 }
 
 .logo:hover {
@@ -54,6 +68,67 @@
   display: none;
   align-items: center;
   gap: var(--spacing-sm);
+}
+
+.authSkeleton {
+  width: 180px;
+  height: 36px;
+  border-radius: var(--radius-button);
+  background: #e2e8f0;
+}
+
+.userMenu {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.userLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text);
+}
+
+.userLink:hover {
+  opacity: 1;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.userName {
+  font-size: 14px;
+  font-weight: 600;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.logoutBtn {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-button);
+  background: var(--color-white);
+}
+
+.logoutBtn:hover {
+  color: var(--color-accent-red);
+  border-color: var(--color-accent-red);
 }
 
 .menuBtn {

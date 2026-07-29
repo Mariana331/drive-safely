@@ -8,22 +8,66 @@ export function ShieldIcon({ size = 24, className }: ShieldIconProps) {
     <svg
       width={size}
       height={size}
-      viewBox="0 0 24 24"
+      viewBox="0 0 56 56"
       fill="none"
       className={className}
       aria-hidden="true"
     >
+      <defs>
+        <linearGradient id="driveyShield" x1="8" y1="8" x2="46" y2="46" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#60D7FF" />
+          <stop offset="0.45" stopColor="#1697FF" />
+          <stop offset="1" stopColor="#1148F3" />
+        </linearGradient>
+        <linearGradient id="driveyInner" x1="17" y1="10" x2="38" y2="42" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#79E1FF" />
+          <stop offset="1" stopColor="#1B7DFF" />
+        </linearGradient>
+      </defs>
       <path
-        d="M12 2L4 6v6c0 5.25 3.4 10.15 8 11.35C16.6 22.15 20 17.25 20 12V6l-8-4z"
-        fill="#3B82F6"
+        d="M28 4 10 12v14c0 12.1 7.5 23.6 18 26 10.5-2.4 18-13.9 18-26V12L28 4Z"
+        fill="url(#driveyShield)"
       />
       <path
-        d="M12 7v5l3 2"
-        stroke="white"
-        strokeWidth="1.5"
+        d="M28 8 15 14v11c0 9.7 5.8 19.2 13 21.2 7.2-2 13-11.5 13-21.2V14L28 8Z"
+        fill="url(#driveyInner)"
+        opacity="0.95"
+      />
+      <path
+        d="M13 12.5c4.7-2.4 9.8-3.9 15-4.5"
+        stroke="#0B2C8B"
+        strokeWidth="2.2"
         strokeLinecap="round"
-        strokeLinejoin="round"
+        opacity="0.55"
       />
+      <path
+        d="M43 18.5c.7 2.4 1 4.9 1 7.5"
+        stroke="#0B2C8B"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        opacity="0.35"
+      />
+      <ellipse cx="23" cy="23" rx="4.6" ry="5.4" fill="white" />
+      <ellipse cx="34" cy="23" rx="4.6" ry="5.4" fill="white" />
+      <ellipse cx="24.2" cy="23.3" rx="2.2" ry="2.8" fill="#13204C" />
+      <ellipse cx="35.2" cy="23.3" rx="2.2" ry="2.8" fill="#13204C" />
+      <circle cx="24.8" cy="22.1" r="0.75" fill="white" />
+      <circle cx="35.8" cy="22.1" r="0.75" fill="white" />
+      <ellipse cx="29" cy="30.5" rx="3.4" ry="2.7" fill="#219DFF" />
+      <path
+        d="M21.5 34c2.1 4 12.9 4 15 0"
+        stroke="#091B54"
+        strokeWidth="2.4"
+        strokeLinecap="round"
+      />
+      <path d="M19.5 17.2c1-1.5 2.7-2.5 4.7-2.7" stroke="#143996" strokeWidth="2" strokeLinecap="round" />
+      <path d="M32.8 14.5c1.8.3 3.3 1.1 4.2 2.6" stroke="#143996" strokeWidth="2" strokeLinecap="round" />
+      <g transform="translate(8 31)">
+        <circle cx="7.5" cy="9.5" r="7.5" fill="#173EAF" />
+        <circle cx="7.5" cy="9.5" r="5.2" fill="#2A8BFF" />
+        <circle cx="7.5" cy="9.5" r="1.8" fill="#8EE7FF" />
+        <path d="M2.2 9.5h10.6M7.5 4.2v10.6" stroke="#0E2B77" strokeWidth="1.4" strokeLinecap="round" />
+      </g>
     </svg>
   );
 }
