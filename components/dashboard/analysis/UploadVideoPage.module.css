@@ -1,0 +1,262 @@
+.page {
+  padding: 0 var(--spacing-lg) var(--spacing-lg);
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-lg);
+  align-items: start;
+}
+
+.uploadCard {
+  background: var(--color-white);
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--spacing-xl);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.dragging {
+  border-color: var(--color-primary);
+  background: #eff6ff;
+}
+
+.uploadInner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-lg);
+  align-items: center;
+}
+
+.uploadCopy {
+  text-align: center;
+}
+
+.cloud {
+  font-size: 48px;
+  margin-bottom: var(--spacing-sm);
+}
+
+.uploadCopy h2 {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.uploadCopy p {
+  color: var(--color-text-muted);
+  font-size: 14px;
+  margin-bottom: var(--spacing-md);
+}
+
+.browseBtn {
+  padding: 12px 20px;
+  background: var(--color-primary);
+  color: white;
+  border-radius: var(--radius-button);
+  font-weight: 600;
+}
+
+.error {
+  margin-top: var(--spacing-sm);
+  color: #b91c1c;
+  font-size: 13px;
+}
+
+.hiddenInput {
+  display: none;
+}
+
+.uploadArt {
+  background: linear-gradient(135deg, #dbeafe, #eff6ff);
+  border-radius: var(--radius-card);
+  padding: var(--spacing-xl);
+  text-align: center;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.artCar {
+  font-size: 42px;
+}
+
+.artMascot {
+  font-size: 28px;
+}
+
+.uploadArt p {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.recentCard,
+.tipsCard,
+.assistantCard {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--spacing-md);
+}
+
+.recentHeader h3,
+.tipsCard h3,
+.assistantCard h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: var(--spacing-md);
+}
+
+.recentList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.recentItem {
+  display: grid;
+  grid-template-columns: 44px 1fr auto auto;
+  gap: 12px;
+  align-items: center;
+  padding: 10px;
+  border-radius: var(--radius-button);
+  background: var(--color-bg);
+}
+
+.thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.recentMeta strong {
+  display: block;
+  font-size: 14px;
+}
+
+.recentMeta span {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.status {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.analyzed {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.processing {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.failed {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.viewLink {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.viewMuted {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.tipsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tipsList li {
+  display: flex;
+  gap: 10px;
+}
+
+.tipIcon {
+  font-size: 18px;
+}
+
+.tipsList strong {
+  display: block;
+  font-size: 13px;
+}
+
+.tipsList p {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.assistantCard {
+  background: linear-gradient(180deg, #eff6ff 0%, #ffffff 70%);
+  text-align: center;
+}
+
+.assistantIcon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.assistantCard p {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin-bottom: var(--spacing-md);
+  line-height: 1.5;
+}
+
+.chatBtn {
+  display: inline-flex;
+  padding: 10px 16px;
+  background: var(--color-primary);
+  color: white;
+  border-radius: var(--radius-button);
+  font-weight: 600;
+  font-size: 13px;
+}
+
+@media screen and (min-width: 768px) {
+  .page {
+    padding: 0 var(--spacing-xl) var(--spacing-xl);
+  }
+
+  .uploadInner {
+    grid-template-columns: 1.2fr 0.8fr;
+    text-align: left;
+  }
+
+  .uploadCopy {
+    text-align: left;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .content {
+    grid-template-columns: 1fr 300px;
+  }
+}

@@ -1,0 +1,267 @@
+.page {
+  padding: 0 var(--spacing-lg) var(--spacing-lg);
+}
+
+.wrap {
+  padding: var(--spacing-xl);
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.topActions {
+  display: flex;
+  gap: var(--spacing-sm);
+  justify-content: flex-end;
+  margin-bottom: var(--spacing-md);
+}
+
+.ghostBtn {
+  padding: 8px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-button);
+  background: white;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.alert {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+  border-radius: var(--radius-card);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-lg);
+  align-items: start;
+}
+
+.card,
+.playerCard,
+.riskCard,
+.nextCard {
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--spacing-md);
+}
+
+.card h2,
+.riskCard h2,
+.nextCard h2 {
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: var(--spacing-md);
+}
+
+.player {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-card);
+  background: linear-gradient(160deg, #0f172a, #1e293b 55%, #334155);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.playerIcon {
+  font-size: 42px;
+}
+
+.overlayTag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(239, 68, 68, 0.9);
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+.timelineBar {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 14px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.marker {
+  position: absolute;
+  top: -4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid white;
+  transform: translateX(-50%);
+}
+
+.markerActive {
+  outline: 2px solid white;
+}
+
+.high {
+  background: #ef4444;
+}
+
+.medium {
+  background: #f59e0b;
+}
+
+.low {
+  background: #22c55e;
+}
+
+.violationList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.violationItem {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-button);
+  overflow: hidden;
+}
+
+.violationActive {
+  border-color: var(--color-primary);
+}
+
+.violationBtn {
+  width: 100%;
+  text-align: left;
+  padding: 12px;
+  background: var(--color-bg);
+}
+
+.violationTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.severity {
+  text-transform: capitalize;
+  font-size: 11px;
+  font-weight: 700;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.time {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.note {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #c2410c;
+}
+
+.explanation {
+  padding: 12px;
+  border-top: 1px solid var(--color-border);
+  background: white;
+}
+
+.explanation h3 {
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.explanation p {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.riskCard {
+  text-align: center;
+  background: linear-gradient(180deg, #fff7ed, #ffffff);
+}
+
+.riskValue {
+  font-size: 40px;
+  font-weight: 800;
+  color: #c2410c;
+  margin-bottom: 8px;
+}
+
+.riskCard p {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.objects {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.objects li {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.nextCard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.primaryBtn,
+.secondaryBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  border-radius: var(--radius-button);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.primaryBtn {
+  background: var(--color-primary);
+  color: white;
+}
+
+.secondaryBtn {
+  border: 1.5px solid var(--color-primary);
+  color: var(--color-primary);
+  background: white;
+}
+
+.sideCol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+@media screen and (min-width: 768px) {
+  .page {
+    padding: 0 var(--spacing-xl) var(--spacing-xl);
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .grid {
+    grid-template-columns: 1.4fr 0.8fr;
+  }
+}

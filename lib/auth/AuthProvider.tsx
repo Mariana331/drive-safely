@@ -8,7 +8,6 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { useRouter } from 'next/navigation';
 import type { RegisterPayload, User } from '@/lib/api/api';
 import * as authApi from '@/lib/api/clientApi';
 
@@ -26,7 +25,6 @@ const AuthContext = createContext<AuthContextValue | null>(null);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
 
   const refreshUser = useCallback(async () => {
     try {
@@ -41,32 +39,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     refreshUser().finally(() => setLoading(false));
   }, [refreshUser]);
 
-  const login = useCallback(
-    async (email: string, password: string) => {
-      const data = await authApi.login(email, password);
-      setUser(data.user);
-      router.push('/profile');
-      router.refresh();
-    },
-    [router],
-  );
+  const login = useCallback(async (email: string, password: string) => {
+    const data = await authApi.login(email, password);
+    setUser(data.user);
+    // Hard navigation so middleware sees the fresh auth cookie.
+    window.location.assign('/profile');
+  }, []);
 
-  const register = useCallback(
-    async (payload: RegisterPayload) => {
-      const data = await authApi.register(payload);
-      setUser(data.user);
-      router.push('/profile');
-      router.refresh();
-    },
-    [router],
-  );
+  const register = useCallback(async (payload: RegisterPayload) => {
+    const data = await authApi.register(payload);
+    setUser(data.user);
+    // Hard navigation so middleware sees the fresh auth cookie.
+    window.location.assign('/profile');
+  }, []);
 
   const logout = useCallback(async () => {
     await authApi.logout();
     setUser(null);
-    router.push('/login');
-    router.refresh();
-  }, [router]);
+    window.location.assign('/login');
+  }, []);
 
   const value = useMemo(
     () => ({ user, loading, login, register, logout, refreshUser }),

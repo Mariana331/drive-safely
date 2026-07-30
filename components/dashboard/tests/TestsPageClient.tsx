@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   CATEGORY_OPTIONS,
   DIFFICULTY_LABEL,
@@ -15,6 +16,7 @@ import {
   type TestDifficulty,
   type TestTab,
 } from '@/lib/tests/testsData';
+import { createTestSession, type SessionMode } from '@/lib/tests/testSession';
 import DashboardHeader from '@/components/dashboard/DashboardHeader/DashboardHeader';
 import DashboardFooter from '@/components/dashboard/DashboardFooter/DashboardFooter';
 import TestsSidebar from './TestsSidebar';
@@ -43,7 +45,13 @@ function DifficultyBadge({ difficulty }: { difficulty: TestDifficulty }) {
   );
 }
 
-function TestRow({ test }: { test: TestCategory }) {
+function TestRow({
+  test,
+  onStart,
+}: {
+  test: TestCategory;
+  onStart: () => void;
+}) {
   return (
     <article className={styles.row}>
       <div className={styles.rowMain}>
@@ -55,7 +63,7 @@ function TestRow({ test }: { test: TestCategory }) {
       </div>
       <DifficultyBadge difficulty={test.difficulty} />
       <ScoreRing score={test.lastScore} />
-      <button type="button" className={styles.startBtn}>
+      <button type="button" className={styles.startBtn} onClick={onStart}>
         Start Test
       </button>
     </article>
@@ -63,6 +71,7 @@ function TestRow({ test }: { test: TestCategory }) {
 }
 
 export default function TestsPageClient() {
+  const router = useRouter();
   const [tab, setTab] = useState<TestTab>('all');
   const [category, setCategory] = useState('all');
   const [difficulty, setDifficulty] = useState('all');
@@ -82,6 +91,14 @@ export default function TestsPageClient() {
       }),
     [tab, category, difficulty, unansweredOnly, search, sort],
   );
+
+  const startSession = (mode: SessionMode, categorySlug?: string) => {
+    const session = createTestSession({
+      mode,
+      category: categorySlug,
+    });
+    router.push(`/tests/take/${session.id}`);
+  };
 
   return (
     <>
@@ -128,7 +145,11 @@ export default function TestsPageClient() {
                 <span className={styles.actionIcon}>{action.icon}</span>
                 <h3>{action.title}</h3>
                 <p>{action.description}</p>
-                <button type="button" className={styles.actionBtn}>
+                <button
+                  type="button"
+                  className={styles.actionBtn}
+                  onClick={() => startSession(action.id as SessionMode)}
+                >
                   {action.button}
                 </button>
               </article>
@@ -198,7 +219,11 @@ export default function TestsPageClient() {
             {filtered.length > 0 ? (
               <div className={styles.list}>
                 {filtered.map((test) => (
-                  <TestRow key={test.id} test={test} />
+                  <TestRow
+                    key={test.id}
+                    test={test}
+                    onStart={() => startSession('category', test.category)}
+                  />
                 ))}
               </div>
             ) : (
@@ -210,15 +235,23 @@ export default function TestsPageClient() {
             <div className={styles.bottomCards}>
               <article className={styles.bottomCard}>
                 <h3>Review Your Mistakes</h3>
-                <p>Go through questions you answered incorrectly and learn why.</p>
-                <button type="button" className={styles.bottomBtn}>
+                <p>Go through harder questions and learn from explanations.</p>
+                <button
+                  type="button"
+                  className={styles.bottomBtn}
+                  onClick={() => startSession('review')}
+                >
                   Review Mistakes
                 </button>
               </article>
               <article className={styles.bottomCard}>
                 <h3>Challenge Yourself</h3>
                 <p>Take a harder mixed test and push your limits today.</p>
-                <button type="button" className={styles.bottomBtn}>
+                <button
+                  type="button"
+                  className={styles.bottomBtn}
+                  onClick={() => startSession('challenge')}
+                >
                   Start Challenge
                 </button>
               </article>

@@ -126,15 +126,15 @@ export interface ApiResponse<T> {
 }
 
 export function getApiBaseUrl(): string {
-  const configured = process.env.NEXT_PUBLIC_API_URL?.trim();
-
+  // Browser: always same-origin so auth cookies stay on the frontend domain.
   if (typeof window !== 'undefined') {
-    return configured || '';
+    return '';
   }
 
   return (
-    process.env.API_INTERNAL_URL ??
-    (configured || 'http://localhost:3002')
+    process.env.API_INTERNAL_URL?.trim() ||
+    process.env.NEXT_PUBLIC_API_URL?.trim() ||
+    'http://localhost:3002'
   );
 }
 
