@@ -12,6 +12,7 @@ import {
 } from '@/lib/news/newsData';
 import DashboardHeader from '@/components/dashboard/DashboardHeader/DashboardHeader';
 import DashboardFooter from '@/components/dashboard/DashboardFooter/DashboardFooter';
+import { useDictionary } from '@/lib/i18n/LocaleProvider';
 import NewsCard from './NewsCard';
 import NewsSidebar from './NewsSidebar';
 import styles from './NewsPage.module.css';
@@ -27,6 +28,7 @@ export default function NewsPageClient({
   initialData,
   allArticles,
 }: NewsPageClientProps) {
+  const dict = useDictionary();
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('all');
   const [country, setCountry] = useState('All Countries');
@@ -80,8 +82,8 @@ export default function NewsPageClient({
   return (
     <>
       <DashboardHeader
-        title="News & Updates"
-        subtitle="Stay informed about traffic rules, safety tips, and driving news."
+        title={dict.dashboard.newsTitle}
+        subtitle={dict.dashboard.newsSubtitle}
       />
 
       <div className={styles.page}>

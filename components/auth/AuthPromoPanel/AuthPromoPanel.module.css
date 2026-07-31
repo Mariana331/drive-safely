@@ -41,6 +41,13 @@
   max-width: 480px;
 }
 
+.topRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 .logo {
   display: flex;
   align-items: center;

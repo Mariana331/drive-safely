@@ -135,6 +135,11 @@
   margin-top: 2px;
 }
 
+.langWrap {
+  margin-top: auto;
+  margin-bottom: var(--spacing-sm);
+}
+
 .darkMode {
   display: flex;
   align-items: center;

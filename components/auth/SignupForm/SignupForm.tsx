@@ -5,12 +5,14 @@ import Link from 'next/link';
 import type { ExperienceLevel } from '@/lib/api/api';
 import { ApiError } from '@/lib/api/api';
 import { useAuth } from '@/lib/auth/AuthProvider';
+import { useDictionary } from '@/lib/i18n/LocaleProvider';
 import Button from '@/components/ui/Button/Button';
 import Input from '@/components/ui/Input/Input';
 import PasswordInput from '@/components/ui/PasswordInput/PasswordInput';
 import Select from '@/components/ui/Select/Select';
 import Checkbox from '@/components/ui/Checkbox/Checkbox';
 import RoleCard from '@/components/ui/RoleCard/RoleCard';
+import LanguageSwitcher from '@/components/i18n/LanguageSwitcher';
 import styles from './SignupForm.module.css';
 
 const countries = [
@@ -25,6 +27,8 @@ const countries = [
 
 export default function SignupForm() {
   const { register } = useAuth();
+  const dict = useDictionary();
+  const a = dict.auth;
   const [loading, setLoading] = useState(false);
   const [formError, setFormError] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -75,7 +79,7 @@ export default function SignupForm() {
       if (err instanceof ApiError) {
         setFormError(err.message);
       } else {
-        setFormError('Something went wrong. Please try again.');
+        setFormError(a.genericError);
       }
     } finally {
       setLoading(false);
@@ -84,13 +88,16 @@ export default function SignupForm() {
 
   return (
     <div className={styles.wrap}>
+      <div className={styles.mobileLang}>
+        <LanguageSwitcher variant="header" />
+      </div>
       <div className={styles.header}>
         <div>
-          <h2 className={styles.title}>Create your account</h2>
-          <p className={styles.subtitle}>Sign up and start driving safer today.</p>
+          <h2 className={styles.title}>{a.createAccount}</h2>
+          <p className={styles.subtitle}>{a.signupSubtitle}</p>
         </div>
         <p className={styles.loginLink}>
-          Already have an account? <Link href="/login">Log in</Link>
+          {a.haveAccount} <Link href="/login">{a.logInLink}</Link>
         </p>
       </div>
 
@@ -107,7 +114,7 @@ export default function SignupForm() {
             placeholder="John Doe"
           />
           <Input
-            label="Email Address"
+            label={a.email}
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -119,7 +126,7 @@ export default function SignupForm() {
 
         <div className={styles.row}>
           <PasswordInput
-            label="Password"
+            label={a.password}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             error={errors.password}

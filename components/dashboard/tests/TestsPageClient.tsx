@@ -6,8 +6,6 @@ import {
   CATEGORY_OPTIONS,
   DIFFICULTY_LABEL,
   DIFFICULTY_OPTIONS,
-  FALLBACK_STATS,
-  FALLBACK_TESTS,
   QUICK_ACTIONS,
   SORT_OPTIONS,
   TEST_TABS,
@@ -17,8 +15,10 @@ import {
   type TestTab,
 } from '@/lib/tests/testsData';
 import { createTestSession, type SessionMode } from '@/lib/tests/testSession';
+import { useUserProgress } from '@/lib/progress/useUserProgress';
 import DashboardHeader from '@/components/dashboard/DashboardHeader/DashboardHeader';
 import DashboardFooter from '@/components/dashboard/DashboardFooter/DashboardFooter';
+import { useDictionary } from '@/lib/i18n/LocaleProvider';
 import TestsSidebar from './TestsSidebar';
 import styles from './TestsPage.module.css';
 
@@ -71,7 +71,9 @@ function TestRow({
 }
 
 export default function TestsPageClient() {
+  const dict = useDictionary();
   const router = useRouter();
+  const { progress } = useUserProgress();
   const [tab, setTab] = useState<TestTab>('all');
   const [category, setCategory] = useState('all');
   const [difficulty, setDifficulty] = useState('all');
@@ -81,7 +83,7 @@ export default function TestsPageClient() {
 
   const filtered = useMemo(
     () =>
-      filterTests(FALLBACK_TESTS, {
+      filterTests(progress.categories, {
         tab,
         category,
         difficulty,
@@ -89,7 +91,7 @@ export default function TestsPageClient() {
         search,
         sort,
       }),
-    [tab, category, difficulty, unansweredOnly, search, sort],
+    [progress.categories, tab, category, difficulty, unansweredOnly, search, sort],
   );
 
   const startSession = (mode: SessionMode, categorySlug?: string) => {
@@ -103,8 +105,8 @@ export default function TestsPageClient() {
   return (
     <>
       <DashboardHeader
-        title="Practice Tests"
-        subtitle="Test your knowledge and track your progress."
+        title={dict.dashboard.testsTitle}
+        subtitle={dict.dashboard.testsSubtitle}
       />
 
       <div className={styles.page}>
@@ -260,7 +262,7 @@ export default function TestsPageClient() {
             <DashboardFooter />
           </div>
 
-          <TestsSidebar stats={FALLBACK_STATS} />
+          <TestsSidebar stats={progress.testsStats} />
         </div>
       </div>
     </>

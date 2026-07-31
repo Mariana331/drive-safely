@@ -4,32 +4,35 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ShieldIcon } from '@/components/icons';
-import DriveyMascot from '@/components/illustrations/DriveyMascot';
+import LanguageSwitcher from '@/components/i18n/LanguageSwitcher';
+import { useDictionary } from '@/lib/i18n/LocaleProvider';
 import styles from './Sidebar.module.css';
-
-const navItems = [
-  { label: 'Dashboard', href: '/profile', icon: '🏠' },
-  { label: 'Upload Video', href: '/ai-analysis', icon: '🎥' },
-  { label: 'AI Analysis', href: '/ai-analysis', icon: '🤖' },
-  { label: 'Traffic Rules', href: '/traffic-rules', icon: '📋' },
-  { label: 'Practice Tests', href: '/tests', icon: '✅' },
-  { label: 'AI Assistant', href: '/assistant', icon: '💬' },
-  { label: 'News & Updates', href: '/news', icon: '📰' },
-  { label: 'Saved Rules', href: '/saved-rules', icon: '🔖' },
-  { label: 'Favorites', href: '/favorites', icon: '⭐' },
-  { label: 'My Profile', href: '/profile', icon: '👤' },
-];
 
 export default function Sidebar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const dict = useDictionary();
+  const s = dict.sidebar;
+
+  const navItems = [
+    { label: s.dashboard, href: '/profile', icon: '🏠' },
+    { label: s.uploadVideo, href: '/ai-analysis', icon: '🎥' },
+    { label: s.aiAnalysis, href: '/ai-analysis', icon: '🤖' },
+    { label: s.trafficRules, href: '/traffic-rules', icon: '📋' },
+    { label: s.practiceTests, href: '/tests', icon: '✅' },
+    { label: s.aiAssistant, href: '/assistant', icon: '💬' },
+    { label: s.newsUpdates, href: '/news', icon: '📰' },
+    { label: s.savedRules, href: '/saved-rules', icon: '🔖' },
+    { label: s.favorites, href: '/favorites', icon: '⭐' },
+    { label: s.myProfile, href: '/profile', icon: '👤' },
+  ];
 
   return (
     <>
       <button
         className={styles.hamburger}
         onClick={() => setOpen(!open)}
-        aria-label="Toggle menu"
+        aria-label={s.toggleMenu}
       >
         ☰
       </button>
@@ -46,14 +49,14 @@ export default function Sidebar() {
               <span className={styles.brandDrive}>Drive</span>
               <span className={styles.brandSafely}>Safely</span>
             </span>
-            <span className={styles.brandTagline}>Drive smarter. Stay safer.</span>
+            <span className={styles.brandTagline}>{s.tagline}</span>
           </div>
         </Link>
 
         <nav className={styles.nav}>
           <ul>
             {navItems.map((item) => (
-              <li key={item.label}>
+              <li key={item.href + item.label}>
                 <Link
                   href={item.href}
                   className={`${styles.navLink} ${
@@ -72,17 +75,13 @@ export default function Sidebar() {
           </ul>
         </nav>
 
-        <div className={styles.proCard}>
-          <DriveyMascot size="sm" />
-          <div>
-            <strong>Upgrade to Pro</strong>
-            <p>Unlock advanced AI analysis</p>
-          </div>
+        <div className={styles.langWrap}>
+          <LanguageSwitcher variant="sidebar" />
         </div>
 
         <div className={styles.darkMode}>
-          <span>🌙 Dark Mode</span>
-          <button className={styles.toggle} disabled aria-label="Dark mode coming soon" />
+          <span>🌙 {s.darkMode}</span>
+          <button className={styles.toggle} disabled aria-label={s.darkMode} />
         </div>
       </aside>
     </>

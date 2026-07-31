@@ -1,57 +1,65 @@
+'use client';
+
 import Link from 'next/link';
 import { ShieldIcon } from '@/components/icons';
 import AuthPromoBackground from './AuthPromoBackground';
+import LanguageSwitcher from '@/components/i18n/LanguageSwitcher';
+import { useDictionary } from '@/lib/i18n/LocaleProvider';
 import styles from './AuthPromoPanel.module.css';
 
-const features = [
-  {
-    icon: '🎥',
-    title: 'AI Video Analysis',
-    description: 'Get instant feedback on your driving.',
-    color: styles.purple,
-  },
-  {
-    icon: '📚',
-    title: 'Learn & Practice',
-    description: 'Master traffic rules and pass tests.',
-    color: styles.green,
-  },
-  {
-    icon: '📊',
-    title: 'Track Progress',
-    description: 'Monitor your skills and improve daily.',
-    color: styles.orange,
-  },
-  {
-    icon: '🏆',
-    title: 'Earn Achievements',
-    description: 'Unlock badges and reach new levels.',
-    color: styles.blue,
-  },
-];
-
 export default function AuthPromoPanel() {
+  const dict = useDictionary();
+  const a = dict.auth;
+
+  const features = [
+    {
+      icon: '🎥',
+      title: a.feature1Title,
+      description: a.feature1Desc,
+      color: styles.purple,
+    },
+    {
+      icon: '📚',
+      title: a.feature2Title,
+      description: a.feature2Desc,
+      color: styles.green,
+    },
+    {
+      icon: '📊',
+      title: a.feature3Title,
+      description: a.feature3Desc,
+      color: styles.orange,
+    },
+    {
+      icon: '🏆',
+      title: a.feature4Title,
+      description: a.feature4Desc,
+      color: styles.blue,
+    },
+  ];
+
   return (
     <div className={styles.panel}>
       <AuthPromoBackground />
       <div className={styles.overlay} />
       <div className={styles.content}>
-        <Link href="/" className={styles.logo}>
-          <ShieldIcon size={32} />
-          <div>
-            <span className={styles.brand}>
-              <span className={styles.brandDrive}>Drive</span>
-              <span className={styles.brandSafely}>Safely</span>
-            </span>
-            <span className={styles.tagline}>Drive smarter. Stay safer.</span>
-          </div>
-        </Link>
+        <div className={styles.topRow}>
+          <Link href="/" className={styles.logo}>
+            <ShieldIcon size={32} />
+            <div>
+              <span className={styles.brand}>
+                <span className={styles.brandDrive}>Drive</span>
+                <span className={styles.brandSafely}>Safely</span>
+              </span>
+              <span className={styles.tagline}>{a.tagline}</span>
+            </div>
+          </Link>
+          <LanguageSwitcher variant="auth" />
+        </div>
 
         <div className={styles.hero}>
-          <h1 className={styles.heading}>Join DriveSafely</h1>
-          <p className={styles.subheading}>
-            Start your journey to becoming a safer and smarter driver.
-          </p>
+          <h1 className={styles.heading}>{a.joinTitle}</h1>
+          <p className={styles.subheading}>{a.joinSubtitle}</p>
         </div>
 
         <ul className={styles.features}>
@@ -70,10 +78,7 @@ export default function AuthPromoPanel() {
           <div className={styles.avatar}>SK</div>
           <div>
             <div className={styles.stars}>★★★★★</div>
-            <p className={styles.quote}>
-              &ldquo;DriveSafely helped me understand my mistakes and become a
-              more confident driver.&rdquo;
-            </p>
+            <p className={styles.quote}>&ldquo;{a.quote}&rdquo;</p>
             <span className={styles.author}>- Sarah K.</span>
             <div className={styles.pagination} aria-hidden="true">
               <span className={`${styles.dot} ${styles.dotActive}`} />

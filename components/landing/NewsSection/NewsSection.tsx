@@ -1,6 +1,9 @@
+'use client';
+
 import Link from 'next/link';
 import Tag from '@/components/ui/Tag/Tag';
 import type { NewsArticle } from '@/lib/api/api';
+import { useLocale, useDictionary } from '@/lib/i18n/LocaleProvider';
 import styles from './NewsSection.module.css';
 
 const fallbackArticles: NewsArticle[] = [
@@ -39,14 +42,6 @@ const fallbackArticles: NewsArticle[] = [
   },
 ];
 
-function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  });
-}
-
 function NewsThumbnail({ category }: { category: string }) {
   const colors: Record<string, string> = {
     'New Law': '#FEF9C3',
@@ -72,16 +67,25 @@ interface NewsSectionProps {
 }
 
 export default function NewsSection({ articles }: NewsSectionProps) {
+  const dict = useDictionary();
+  const { locale } = useLocale();
   const displayArticles =
     articles.length > 0 ? articles.slice(0, 3) : fallbackArticles;
+
+  const formatDate = (dateStr: string) =>
+    new Date(dateStr).toLocaleDateString(locale === 'uk' ? 'uk-UA' : 'en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
 
   return (
     <section id="news" className={styles.section}>
       <div className="container_beforeAuth">
         <div className={styles.header}>
-          <h2 className={styles.heading}>Latest News &amp; Updates</h2>
+          <h2 className={styles.heading}>{dict.newsSection.heading}</h2>
           <Link href="/news" className={styles.viewAll}>
-            View all news →
+            {dict.newsSection.viewAll}
           </Link>
         </div>
         <div className={styles.grid}>

@@ -1,15 +1,18 @@
 import Button from '@/components/ui/Button/Button';
+import { getDictionary } from '@/lib/i18n/getDictionary';
+import { getRequestLocale } from '@/lib/i18n/getRequestLocale';
 import styles from './not-found.module.css';
 
-export default function NotFound() {
+export default async function NotFound() {
+  const locale = await getRequestLocale();
+  const dict = await getDictionary(locale);
+
   return (
     <div className={styles.wrapper}>
-      <h1 className={styles.title}>404 — Page Not Found</h1>
-      <p className={styles.description}>
-        The page you&apos;re looking for doesn&apos;t exist or has been moved.
-      </p>
+      <h1 className={styles.title}>404 — {dict.notFound.title}</h1>
+      <p className={styles.description}>{dict.notFound.text}</p>
       <Button variant="primary" href="/">
-        Back to Home
+        {dict.notFound.home}
       </Button>
     </div>
   );

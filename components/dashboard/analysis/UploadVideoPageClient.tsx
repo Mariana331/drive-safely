@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import DashboardHeader from '@/components/dashboard/DashboardHeader/DashboardHeader';
 import DashboardFooter from '@/components/dashboard/DashboardFooter/DashboardFooter';
+import { useDictionary } from '@/lib/i18n/LocaleProvider';
 import {
   ANALYSIS_TIPS,
   FALLBACK_RECENT,
@@ -20,6 +21,7 @@ import {
 import styles from './UploadVideoPage.module.css';
 
 export default function UploadVideoPageClient() {
+  const dict = useDictionary();
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragging, setDragging] = useState(false);
@@ -61,8 +63,8 @@ export default function UploadVideoPageClient() {
   return (
     <>
       <DashboardHeader
-        title="Upload Video"
-        subtitle="Upload your road video. Get AI analysis and learn how to drive safer."
+        title={dict.sidebar.uploadVideo}
+        subtitle={dict.dashboard.aiSubtitle}
       />
 
       <div className={styles.page}>

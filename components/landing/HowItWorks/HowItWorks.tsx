@@ -1,38 +1,40 @@
+'use client';
+
 import { CloudIcon, BrainIcon, DocumentIcon, TrophyIcon } from '@/components/icons';
+import { useDictionary } from '@/lib/i18n/LocaleProvider';
 import styles from './HowItWorks.module.css';
 
-const steps = [
-  {
-    icon: <CloudIcon />,
-    title: 'Upload',
-    description:
-      'Upload a video of a road situation from your dashcam or phone.',
-  },
-  {
-    icon: <BrainIcon />,
-    title: 'AI Analysis',
-    description:
-      'Our AI analyzes the video and detects objects, and possible violations.',
-  },
-  {
-    icon: <DocumentIcon />,
-    title: 'Read Explanation',
-    description:
-      'Get a clear explanation with traffic rules and helpful recommendations.',
-  },
-  {
-    icon: <TrophyIcon />,
-    title: 'Become Better Driver',
-    description:
-      'Learn from every situation and improve your driving skills every day.',
-  },
-];
-
 export default function HowItWorks() {
+  const dict = useDictionary();
+  const h = dict.howItWorks;
+
+  const steps = [
+    {
+      icon: <CloudIcon />,
+      title: h.step1Title,
+      description: h.step1Desc,
+    },
+    {
+      icon: <BrainIcon />,
+      title: h.step2Title,
+      description: h.step2Desc,
+    },
+    {
+      icon: <DocumentIcon />,
+      title: h.step3Title,
+      description: h.step3Desc,
+    },
+    {
+      icon: <TrophyIcon />,
+      title: h.step4Title,
+      description: h.step4Desc,
+    },
+  ];
+
   return (
     <section id="how-it-works" className={styles.section}>
       <div className="container_beforeAuth">
-        <h2 className={styles.heading}>How DriveSafely Works</h2>
+        <h2 className={styles.heading}>{h.heading}</h2>
         <div className={styles.steps}>
           {steps.map((step, index) => (
             <div key={step.title} className={styles.step}>

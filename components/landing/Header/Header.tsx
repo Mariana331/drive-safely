@@ -4,18 +4,11 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { ShieldIcon } from '@/components/icons';
 import { useAuth } from '@/lib/auth/AuthProvider';
+import { useDictionary } from '@/lib/i18n/LocaleProvider';
 import Button from '@/components/ui/Button/Button';
+import LanguageSwitcher from '@/components/i18n/LanguageSwitcher';
 import MobileMenu, { HamburgerButton } from './MobileMenu';
 import styles from './Header.module.css';
-
-const navLinks = [
-  { label: 'Home', href: '#home' },
-  { label: 'AI Analysis', href: '#features' },
-  { label: 'Traffic Rules', href: '#features' },
-  { label: 'News', href: '#news' },
-  { label: 'Tests', href: '#features' },
-  { label: 'About', href: '#how-it-works' },
-];
 
 function getInitials(name: string) {
   return name
@@ -29,6 +22,16 @@ function getInitials(name: string) {
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { user, loading, logout } = useAuth();
+  const dict = useDictionary();
+
+  const navLinks = [
+    { label: dict.nav.home, href: '#home' },
+    { label: dict.nav.aiAnalysis, href: '#features' },
+    { label: dict.nav.trafficRules, href: '#features' },
+    { label: dict.nav.news, href: '#news' },
+    { label: dict.nav.tests, href: '#features' },
+    { label: dict.nav.about, href: '#how-it-works' },
+  ];
 
   return (
     <header className={styles.header}>
@@ -41,10 +44,10 @@ export default function Header() {
           </span>
         </Link>
 
-        <nav className={styles.nav} aria-label="Main navigation">
+        <nav className={styles.nav} aria-label={dict.nav.main}>
           <ul className={styles.navList}>
             {navLinks.map((link) => (
-              <li key={link.label}>
+              <li key={link.href + link.label}>
                 <Link href={link.href} className={styles.navLink}>
                   {link.label}
                 </Link>
@@ -54,6 +57,7 @@ export default function Header() {
         </nav>
 
         <div className={styles.actions}>
+          <LanguageSwitcher variant="header" />
           {loading ? (
             <div className={styles.authSkeleton} aria-hidden="true" />
           ) : user ? (
@@ -67,16 +71,16 @@ export default function Header() {
                 className={styles.logoutBtn}
                 onClick={() => logout()}
               >
-                Log out
+                {dict.common.logout}
               </button>
             </div>
           ) : (
             <>
               <Button variant="ghost" href="/login">
-                Log in
+                {dict.common.login}
               </Button>
               <Button variant="primary" href="/signup">
-                Sign Up
+                {dict.common.signup}
               </Button>
             </>
           )}

@@ -1,0 +1,106 @@
+.card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: 4px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.code {
+  color: var(--color-primary);
+}
+
+.actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.share,
+.bookmark {
+  padding: 6px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-white);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--color-bg);
+}
+
+.image {
+  object-fit: cover;
+}
+
+.summary {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+}
+
+.tip {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  background: #f3e8ff;
+}
+
+.tipIcon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.tipLabel {
+  font-size: 12px;
+  font-weight: 700;
+  color: #7e22ce;
+  margin-bottom: 2px;
+}
+
+.tipText {
+  font-size: 13px;
+  line-height: 1.4;
+  color: #581c87;
+}
+
+.source {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-primary);
+  width: fit-content;
+}
+
+.source:hover {
+  text-decoration: underline;
+}

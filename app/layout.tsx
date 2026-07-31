@@ -1,32 +1,42 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { AuthProvider } from '@/lib/auth/AuthProvider';
+import { LocaleProvider } from '@/lib/i18n/LocaleProvider';
+import { getRequestLocale } from '@/lib/i18n/getRequestLocale';
+import { getDictionary } from '@/lib/i18n/getDictionary';
 import './globals.css';
 
 const inter = Inter({
   variable: '--font-inter',
-  subsets: ['latin'],
+  subsets: ['latin', 'cyrillic'],
   display: 'swap',
 });
 
-export const metadata: Metadata = {
-  title: 'DriveSafely — AI-Powered Driver Safety Platform',
-  description:
-    'Upload a road video and get AI analysis, learn traffic rules, and become a better driver every day.',
-  icons: {
-    icon: '/favicon.svg',
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getRequestLocale();
+  const dict = await getDictionary(locale);
+  return {
+    title: dict.meta.title,
+    description: dict.meta.description,
+    icons: {
+      icon: '/favicon.svg',
+    },
+  };
+}
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getRequestLocale();
+
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang={locale} className={inter.variable}>
       <body>
-        <AuthProvider>{children}</AuthProvider>
+        <LocaleProvider initialLocale={locale}>
+          <AuthProvider>{children}</AuthProvider>
+        </LocaleProvider>
       </body>
     </html>
   );

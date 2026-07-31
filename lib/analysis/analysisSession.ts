@@ -4,6 +4,7 @@ import {
   type AnalysisStatus,
   type RecentUpload,
 } from './analysisData';
+import { readUserJson, writeUserJson } from '@/lib/progress/progressUser';
 
 export interface AnalysisSession {
   id: string;
@@ -20,31 +21,25 @@ const SESSIONS_KEY = 'drivesafely_analysis_sessions';
 const RECENT_KEY = 'drivesafely_analysis_recent';
 
 function readSessions(): Record<string, AnalysisSession> {
-  if (typeof window === 'undefined') return {};
-  try {
-    const raw = localStorage.getItem(SESSIONS_KEY);
-    return raw ? (JSON.parse(raw) as Record<string, AnalysisSession>) : {};
-  } catch {
-    return {};
-  }
+  return readUserJson<Record<string, AnalysisSession>>(SESSIONS_KEY, {});
 }
 
 function writeSessions(sessions: Record<string, AnalysisSession>) {
-  localStorage.setItem(SESSIONS_KEY, JSON.stringify(sessions));
+  writeUserJson(SESSIONS_KEY, sessions);
 }
 
 function readRecent(): RecentUpload[] {
-  if (typeof window === 'undefined') return [];
-  try {
-    const raw = localStorage.getItem(RECENT_KEY);
-    return raw ? (JSON.parse(raw) as RecentUpload[]) : [];
-  } catch {
-    return [];
-  }
+  return readUserJson<RecentUpload[]>(RECENT_KEY, []);
 }
 
 function writeRecent(items: RecentUpload[]) {
-  localStorage.setItem(RECENT_KEY, JSON.stringify(items.slice(0, 10)));
+  writeUserJson(RECENT_KEY, items.slice(0, 10));
+}
+
+export function listAnalysisSessions(): AnalysisSession[] {
+  return Object.values(readSessions()).sort((a, b) =>
+    b.createdAt.localeCompare(a.createdAt),
+  );
 }
 
 export function createAnalysisSession(file: File): AnalysisSession {
@@ -125,4 +120,9 @@ export function formatFileSize(bytes: number) {
 }
 
 export const MAX_UPLOAD_BYTES = 500 * 1024 * 1024;
-export const ACCEPTED_TYPES = ['video/mp4', 'video/quicktime', 'video/x-msvideo', 'video/avi'];
+export const ACCEPTED_TYPES = [
+  'video/mp4',
+  'video/quicktime',
+  'video/x-msvideo',
+  'video/avi',
+];

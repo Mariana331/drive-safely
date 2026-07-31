@@ -1,6 +1,7 @@
 'use client';
 
 import { useAuth } from '@/lib/auth/AuthProvider';
+import { useDictionary } from '@/lib/i18n/LocaleProvider';
 import styles from './DashboardHeader.module.css';
 
 interface DashboardHeaderProps {
@@ -13,6 +14,7 @@ export default function DashboardHeader({
   subtitle,
 }: DashboardHeaderProps) {
   const { user, logout } = useAuth();
+  const dict = useDictionary();
   const initials = user?.fullName
     ?.split(' ')
     .map((n) => n[0])
@@ -27,15 +29,15 @@ export default function DashboardHeader({
         {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
       </div>
       <div className={styles.actions}>
-        <button className={styles.bell} aria-label="Notifications">
+        <button className={styles.bell} aria-label={dict.common.notifications}>
           🔔
           <span className={styles.badge}>3</span>
         </button>
         <div className={styles.userMenu}>
           <div className={styles.avatar}>{initials}</div>
-          <span className={styles.name}>{user?.fullName ?? 'User'}</span>
+          <span className={styles.name}>{user?.fullName ?? dict.common.user}</span>
           <button className={styles.logout} onClick={() => logout()}>
-            Log out
+            {dict.common.logout}
           </button>
         </div>
       </div>

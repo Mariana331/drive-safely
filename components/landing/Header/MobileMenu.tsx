@@ -2,16 +2,9 @@
 
 import Link from 'next/link';
 import { useAuth } from '@/lib/auth/AuthProvider';
+import { useDictionary } from '@/lib/i18n/LocaleProvider';
+import LanguageSwitcher from '@/components/i18n/LanguageSwitcher';
 import styles from './MobileMenu.module.css';
-
-const navLinks = [
-  { label: 'Home', href: '#home' },
-  { label: 'AI Analysis', href: '#features' },
-  { label: 'Traffic Rules', href: '#features' },
-  { label: 'News', href: '#news' },
-  { label: 'Tests', href: '#features' },
-  { label: 'About', href: '#how-it-works' },
-];
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -29,8 +22,18 @@ function getInitials(name: string) {
 
 export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const { user, loading, logout } = useAuth();
+  const dict = useDictionary();
 
   if (!isOpen) return null;
+
+  const navLinks = [
+    { label: dict.nav.home, href: '#home' },
+    { label: dict.nav.aiAnalysis, href: '#features' },
+    { label: dict.nav.trafficRules, href: '#features' },
+    { label: dict.nav.news, href: '#news' },
+    { label: dict.nav.tests, href: '#features' },
+    { label: dict.nav.about, href: '#how-it-works' },
+  ];
 
   const handleLogout = async () => {
     onClose();
@@ -39,10 +42,13 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
   return (
     <div className={styles.overlay}>
-      <nav className={styles.menu} aria-label="Mobile navigation">
+      <nav className={styles.menu} aria-label={dict.nav.main}>
+        <div className={styles.langRow}>
+          <LanguageSwitcher variant="header" />
+        </div>
         <ul className={styles.list}>
           {navLinks.map((link) => (
-            <li key={link.label}>
+            <li key={link.href + link.label}>
               <Link href={link.href} className={styles.link} onClick={onClose}>
                 {link.label}
               </Link>
@@ -61,16 +67,16 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 </span>
               </Link>
               <button type="button" className={styles.logoutBtn} onClick={handleLogout}>
-                Log out
+                {dict.common.logout}
               </button>
             </>
           ) : (
             <>
               <Link href="/login" className={styles.loginBtn} onClick={onClose}>
-                Log in
+                {dict.common.login}
               </Link>
               <Link href="/signup" className={styles.signupBtn} onClick={onClose}>
-                Sign Up
+                {dict.common.signup}
               </Link>
             </>
           )}
@@ -89,11 +95,12 @@ export function HamburgerButton({
   onClick: () => void;
   className?: string;
 }) {
+  const dict = useDictionary();
   return (
     <button
       className={`${styles.hamburger} ${isOpen ? styles.open : ''} ${className}`}
       onClick={onClick}
-      aria-label={isOpen ? 'Close menu' : 'Open menu'}
+      aria-label={isOpen ? dict.common.showLess : dict.sidebar.toggleMenu}
       aria-expanded={isOpen}
     >
       <span />

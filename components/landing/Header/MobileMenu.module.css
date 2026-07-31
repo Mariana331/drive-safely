@@ -13,6 +13,12 @@
   box-shadow: var(--shadow-card);
 }
 
+.langRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--spacing-md);
+}
+
 .list {
   display: flex;
   flex-direction: column;

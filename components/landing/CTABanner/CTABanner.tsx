@@ -1,22 +1,29 @@
+'use client';
+
 import Button from '@/components/ui/Button/Button';
-import DriveyMascot from '@/components/illustrations/DriveyMascot';
+import { ShieldIcon } from '@/components/icons';
+import { useDictionary } from '@/lib/i18n/LocaleProvider';
 import styles from './CTABanner.module.css';
 
 export default function CTABanner() {
+  const dict = useDictionary();
+
   return (
     <section className={styles.section}>
       <div className={`container_beforeAuth ${styles.banner}`}>
         <div className={styles.mascot}>
-          <DriveyMascot size="lg" />
+          <ShieldIcon size={68} />
         </div>
         <div className={styles.content}>
-          <h2 className={styles.title}>Ready to drive more safely?</h2>
-          <p className={styles.text}>
-            Join thousands of drivers who are learning and making our roads safer
-            together.
-          </p>
-          <Button variant="secondary" size="lg" href="/signup" className={styles.btn}>
-            Get Started Free →
+          <h2 className={styles.title}>{dict.cta.title}</h2>
+          <p className={styles.text}>{dict.cta.text}</p>
+          <Button
+            variant="secondary"
+            size="lg"
+            href="/signup"
+            className={styles.btn}
+          >
+            {dict.cta.button}
           </Button>
         </div>
       </div>

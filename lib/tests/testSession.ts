@@ -1,5 +1,6 @@
 import { pickQuestions, type TestQuestion } from './questions';
 import { FALLBACK_TESTS, type TestMode } from './testsData';
+import { readUserJson, writeUserJson } from '@/lib/progress/progressUser';
 
 export type SessionMode = TestMode | 'challenge' | 'review';
 
@@ -21,22 +22,18 @@ export interface TestSession {
 const STORAGE_KEY = 'drivesafely_test_sessions';
 
 function readAll(): Record<string, TestSession> {
-  if (typeof window === 'undefined') return {};
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? (JSON.parse(raw) as Record<string, TestSession>) : {};
-  } catch {
-    return {};
-  }
+  return readUserJson<Record<string, TestSession>>(STORAGE_KEY, {});
 }
 
 function writeAll(sessions: Record<string, TestSession>) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(sessions));
+  writeUserJson(STORAGE_KEY, sessions);
 }
 
 function titleFor(mode: SessionMode, category?: string) {
   if (mode === 'category' && category) {
-    const found = FALLBACK_TESTS.find((t) => t.category === category || t.slug === category);
+    const found = FALLBACK_TESTS.find(
+      (t) => t.category === category || t.slug === category,
+    );
     return found ? `${found.name} Test` : 'Category Test';
   }
 
@@ -63,6 +60,18 @@ function countFor(mode: SessionMode) {
   if (mode === 'category') return 8;
   if (mode === 'review') return 8;
   return 10;
+}
+
+export function listTestSessions(): TestSession[] {
+  return Object.values(readAll()).sort((a, b) =>
+    b.createdAt.localeCompare(a.createdAt),
+  );
+}
+
+export function listCompletedTestSessions(): TestSession[] {
+  return listTestSessions().filter(
+    (s) => s.completedAt && typeof s.score === 'number',
+  );
 }
 
 export function createTestSession(options: {

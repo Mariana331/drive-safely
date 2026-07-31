@@ -1,6 +1,7 @@
 'use client';
 
 import Button from '@/components/ui/Button/Button';
+import { useDictionary } from '@/lib/i18n/LocaleProvider';
 import styles from './error.module.css';
 
 type Props = {
@@ -9,21 +10,21 @@ type Props = {
 };
 
 export default function Error({ error, reset }: Props) {
+  const dict = useDictionary();
+
   return (
     <div className={styles.wrapper}>
-      <h1 className={styles.title}>Something went wrong</h1>
-      <p className={styles.description}>
-        We couldn&apos;t load this page. Please try again.
-      </p>
+      <h1 className={styles.title}>{dict.error.title}</h1>
+      <p className={styles.description}>{dict.error.text}</p>
       {error.message && (
         <p className={styles.errorDetail}>{error.message}</p>
       )}
       <div className={styles.actions}>
         <button onClick={reset} className={styles.retryBtn}>
-          Try again
+          {dict.error.tryAgain}
         </button>
         <Button variant="primary" href="/">
-          Go home
+          {dict.error.home}
         </Button>
       </div>
     </div>

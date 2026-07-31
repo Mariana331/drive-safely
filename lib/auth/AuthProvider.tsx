@@ -10,6 +10,7 @@ import {
 } from 'react';
 import type { RegisterPayload, User } from '@/lib/api/api';
 import * as authApi from '@/lib/api/clientApi';
+import { setProgressUserId } from '@/lib/progress/progressUser';
 
 interface AuthContextValue {
   user: User | null;
@@ -29,8 +30,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const refreshUser = useCallback(async () => {
     try {
       const data = await authApi.getMe();
+      setProgressUserId(data.user._id);
       setUser(data.user);
     } catch {
+      setProgressUserId(null);
       setUser(null);
     }
   }, []);
@@ -39,8 +42,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     refreshUser().finally(() => setLoading(false));
   }, [refreshUser]);
 
+  useEffect(() => {
+    setProgressUserId(user?._id ?? null);
+  }, [user?._id]);
+
   const login = useCallback(async (email: string, password: string) => {
     const data = await authApi.login(email, password);
+    setProgressUserId(data.user._id);
     setUser(data.user);
     // Hard navigation so middleware sees the fresh auth cookie.
     window.location.assign('/profile');
@@ -48,6 +56,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const register = useCallback(async (payload: RegisterPayload) => {
     const data = await authApi.register(payload);
+    setProgressUserId(data.user._id);
     setUser(data.user);
     // Hard navigation so middleware sees the fresh auth cookie.
     window.location.assign('/profile');
@@ -55,6 +64,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = useCallback(async () => {
     await authApi.logout();
+    setProgressUserId(null);
     setUser(null);
     window.location.assign('/login');
   }, []);

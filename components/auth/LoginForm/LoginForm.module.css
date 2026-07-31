@@ -11,7 +11,17 @@
   box-shadow: var(--shadow-card);
 }
 
+.mobileLang {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--spacing-md);
+}
+
 @media screen and (min-width: 1024px) {
+  .mobileLang {
+    display: none;
+  }
+
   .wrap {
     margin: var(--spacing-xl) auto;
     border-radius: var(--radius-card);
