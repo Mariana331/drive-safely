@@ -1,22 +1,23 @@
+import {
+  getNewsCatalog,
+  findArticleBySlug,
+  toListResponse,
+} from '@/lib/news/getNewsCatalog';
 import { getNewsList } from '@/lib/api/ServerApi';
-import { FALLBACK_NEWS } from '@/lib/news/newsData';
 import NewsPageClient from '@/components/dashboard/news/NewsPageClient';
 
 export const metadata = {
   title: 'News & Updates — DriveSafely',
   description:
-    'Stay informed about traffic rules, safety tips, and driving news.',
+    'Official traffic law updates from Verkhovna Rada and HSC MIA, plus road safety and automotive news.',
 };
 
 export default async function NewsPage() {
-  const allData = await getNewsList({ page: 1, limit: 50 });
-  const allArticles =
-    allData.articles.length > 0 ? allData.articles : FALLBACK_NEWS;
+  const apiData = await getNewsList({ page: 1, limit: 50 });
+  const catalog = await getNewsCatalog(apiData.articles);
+  const initialData = toListResponse(catalog, 1, 50);
 
   return (
-    <NewsPageClient
-      initialData={allData}
-      allArticles={allArticles}
-    />
+    <NewsPageClient initialData={initialData} allArticles={catalog} />
   );
 }

@@ -48,6 +48,9 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.svg|images|.*\\..*).*)',
+    /*
+     * Skip API routes (auth proxy), Next internals, and static assets.
+     */
+    '/((?!api|_next/static|_next/image|favicon.svg|images|.*\\..*).*)',
   ],
 };

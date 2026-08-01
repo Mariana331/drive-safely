@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import type { NewsArticle } from '@/lib/api/api';
 import { formatNewsDate } from '@/lib/news/newsData';
 import NewsCategoryBadge from './NewsCategoryBadge';
@@ -14,10 +15,11 @@ interface NewsCardProps {
 export default function NewsCard({ article }: NewsCardProps) {
   const [saved, setSaved] = useState(false);
   const readTime = article.readTimeMinutes ?? 3;
+  const isOfficial = article.sourceType === 'legislation';
 
   return (
     <article className={styles.card}>
-      <div className={styles.imageWrap}>
+      <Link href={`/news/${article.slug}`} className={styles.imageWrap}>
         {article.imageUrl ? (
           <Image
             src={article.imageUrl}
@@ -27,13 +29,26 @@ export default function NewsCard({ article }: NewsCardProps) {
             sizes="(max-width: 768px) 100vw, 400px"
           />
         ) : (
-          <div className={styles.imagePlaceholder} />
+          <div className={styles.imagePlaceholder}>
+            <span>{isOfficial ? '⚖️' : '📰'}</span>
+          </div>
         )}
-      </div>
+      </Link>
 
       <div className={styles.body}>
-        <NewsCategoryBadge category={article.category} />
-        <h3 className={styles.title}>{article.title}</h3>
+        <div className={styles.badges}>
+          <NewsCategoryBadge category={article.category} />
+          {isOfficial ? (
+            <span className={styles.official}>Official source</span>
+          ) : null}
+          {article.sourceType === 'rss' ? (
+            <span className={styles.live}>Auto-updated</span>
+          ) : null}
+        </div>
+
+        <h3 className={styles.title}>
+          <Link href={`/news/${article.slug}`}>{article.title}</Link>
+        </h3>
         <p className={styles.excerpt}>{article.excerpt}</p>
 
         <div className={styles.footer}>

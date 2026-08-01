@@ -5,7 +5,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import DashboardHeader from '@/components/dashboard/DashboardHeader/DashboardHeader';
 import DashboardFooter from '@/components/dashboard/DashboardFooter/DashboardFooter';
+import LearningJourney from '@/components/dashboard/news/LearningJourney';
 import { useDictionary } from '@/lib/i18n/LocaleProvider';
+import { VIDEO_LEARNING_JOURNEY } from '@/lib/news/journey';
 import {
   ANALYSIS_TIPS,
   FALLBACK_RECENT,
@@ -68,6 +70,12 @@ export default function UploadVideoPageClient() {
       />
 
       <div className={styles.page}>
+        <LearningJourney
+          variant="video"
+          title="Learning path from Video"
+          subtitle="VIDEO → AI Analysis → Traffic Rules → Practice Test"
+          steps={VIDEO_LEARNING_JOURNEY}
+        />
         <div className={styles.content}>
           <div className={styles.main}>
             <section

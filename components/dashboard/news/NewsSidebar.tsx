@@ -46,25 +46,27 @@ export default function NewsSidebar({
         <ul className={styles.storyList}>
           {topStories.slice(0, 3).map((story) => (
             <li key={story._id} className={styles.storyItem}>
-              <div className={styles.storyThumb}>
-                {story.imageUrl ? (
-                  <Image
-                    src={story.imageUrl}
-                    alt=""
-                    fill
-                    className={styles.storyImage}
-                    sizes="56px"
-                  />
-                ) : (
-                  <div className={styles.storyPlaceholder} />
-                )}
-              </div>
-              <div>
-                <p className={styles.storyTitle}>{story.title}</p>
-                <time className={styles.storyDate} dateTime={story.publishedAt}>
-                  {formatNewsDateShort(story.publishedAt)}
-                </time>
-              </div>
+              <Link href={`/news/${story.slug}`} className={styles.storyLink}>
+                <div className={styles.storyThumb}>
+                  {story.imageUrl ? (
+                    <Image
+                      src={story.imageUrl}
+                      alt=""
+                      fill
+                      className={styles.storyImage}
+                      sizes="56px"
+                    />
+                  ) : (
+                    <div className={styles.storyPlaceholder} />
+                  )}
+                </div>
+                <div>
+                  <p className={styles.storyTitle}>{story.title}</p>
+                  <time className={styles.storyDate} dateTime={story.publishedAt}>
+                    {formatNewsDateShort(story.publishedAt)}
+                  </time>
+                </div>
+              </Link>
             </li>
           ))}
         </ul>
