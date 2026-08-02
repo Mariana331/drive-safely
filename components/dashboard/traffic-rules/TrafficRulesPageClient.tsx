@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import DashboardHeader from '@/components/dashboard/DashboardHeader/DashboardHeader';
 import DashboardFooter from '@/components/dashboard/DashboardFooter/DashboardFooter';
 import { useDictionary } from '@/lib/i18n/LocaleProvider';
@@ -61,6 +62,8 @@ export default function TrafficRulesPageClient() {
   const dict = useDictionary();
   const t = dict.trafficRules;
   const { progress, refresh } = useUserProgress();
+  const searchParams = useSearchParams();
+  const focusRuleId = searchParams.get('rule');
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState<RuleCategoryId>('all');
   const [savedIds, setSavedIds] = useState<string[]>([]);
@@ -69,6 +72,19 @@ export default function TrafficRulesPageClient() {
   useEffect(() => {
     setSavedIds(loadSavedRuleIds());
   }, [progress.rulesStudied]);
+
+  useEffect(() => {
+    if (!focusRuleId) return;
+    setCategory('all');
+    setSearch('');
+    setShowAll(true);
+    const timer = window.setTimeout(() => {
+      document
+        .getElementById(`rule-${focusRuleId}`)
+        ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 180);
+    return () => window.clearTimeout(timer);
+  }, [focusRuleId]);
 
   const filtered = useMemo(
     () => filterTrafficRules(TRAFFIC_RULES, { category, search }),
@@ -201,6 +217,7 @@ export default function TrafficRulesPageClient() {
                       key={rule.id}
                       rule={rule}
                       saved={savedIds.includes(rule.id)}
+                      focused={focusRuleId === rule.id}
                       onToggleSave={handleToggleSave}
                     />
                   ))}

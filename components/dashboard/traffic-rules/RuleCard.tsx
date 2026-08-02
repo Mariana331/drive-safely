@@ -12,12 +12,14 @@ import styles from './RuleCard.module.css';
 interface RuleCardProps {
   rule: TrafficRule;
   saved: boolean;
+  focused?: boolean;
   onToggleSave: (id: string) => void;
 }
 
 export default function RuleCard({
   rule,
   saved,
+  focused = false,
   onToggleSave,
 }: RuleCardProps) {
   const dict = useDictionary();
@@ -31,7 +33,10 @@ export default function RuleCard({
         : t.lowPriority;
 
   return (
-    <article className={styles.card}>
+    <article
+      id={`rule-${rule.id}`}
+      className={`${styles.card} ${focused ? styles.focused : ''}`}
+    >
       <div className={styles.thumb}>
         <Image
           src={rule.imageUrl}

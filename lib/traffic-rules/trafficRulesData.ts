@@ -237,6 +237,18 @@ export const TRAFFIC_RULES: TrafficRule[] = [
       'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=400&q=80',
   },
   {
+    id: 'r-16-12',
+    code: '16.12',
+    title: 'Priority at intersections',
+    summary:
+      'At an intersection, give way to vehicles that have priority according to signs, signals, or the right-hand rule when directions are equivalent.',
+    category: 'priority',
+    priority: 'high',
+    tip: 'Look for priority signs first, then traffic lights, then the right-hand rule.',
+    imageUrl:
+      'https://images.unsplash.com/photo-1506521781263-d8422e94f995?auto=format&fit=crop&w=400&q=80',
+  },
+  {
     id: 'r-15-9',
     code: '15.9',
     title: 'Parking on sidewalks',

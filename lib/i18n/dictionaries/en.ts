@@ -51,7 +51,8 @@ export const en = {
     trafficRulesTitle: 'Traffic Rules',
     trafficRulesDesc: 'Browse rules with simple explanations.',
     assistantTitle: 'AI Assistant',
-    assistantDesc: 'Ask questions and get instant answers.',
+    assistantDesc:
+      'Chat about road situations, upload sign photos, and open the matching Traffic Rules.',
     testsTitle: 'Practice Tests',
     testsDesc: 'Test knowledge and track progress.',
   },

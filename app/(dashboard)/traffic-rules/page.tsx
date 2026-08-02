@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import TrafficRulesPageClient from '@/components/dashboard/traffic-rules/TrafficRulesPageClient';
 
 export const metadata = {
@@ -7,5 +8,9 @@ export const metadata = {
 };
 
 export default function TrafficRulesPage() {
-  return <TrafficRulesPageClient />;
+  return (
+    <Suspense fallback={<div style={{ padding: 24 }}>Loading rules…</div>}>
+      <TrafficRulesPageClient />
+    </Suspense>
+  );
 }
