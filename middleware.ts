@@ -2,7 +2,14 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { LOCALE_COOKIE, normalizeLocale } from '@/lib/i18n/config';
 
-const protectedRoutes = ['/profile', '/tests', '/ai-analysis', '/assistant'];
+const protectedRoutes = [
+  '/profile',
+  '/tests',
+  '/ai-analysis',
+  '/assistant',
+  '/saved-rules',
+  '/favorites',
+];
 const authRoutes = ['/login', '/signup'];
 
 function resolveLocale(request: NextRequest) {

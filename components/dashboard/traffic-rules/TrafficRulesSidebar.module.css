@@ -43,10 +43,17 @@
 }
 
 .savedItem {
+  font-size: 13px;
+}
+
+.savedLink {
   display: flex;
   gap: 10px;
   align-items: baseline;
-  font-size: 13px;
+}
+
+.savedLink:hover .savedTitle {
+  color: var(--color-primary);
 }
 
 .savedCode {

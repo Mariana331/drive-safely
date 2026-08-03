@@ -40,8 +40,13 @@ export default function TrafficRulesSidebar({
         <ul className={styles.savedList}>
           {savedRules.slice(0, 4).map((rule) => (
             <li key={rule.id} className={styles.savedItem}>
-              <span className={styles.savedCode}>{rule.code}</span>
-              <span className={styles.savedTitle}>{rule.title}</span>
+              <Link
+                href={`/traffic-rules?rule=${rule.id}`}
+                className={styles.savedLink}
+              >
+                <span className={styles.savedCode}>{rule.code}</span>
+                <span className={styles.savedTitle}>{rule.title}</span>
+              </Link>
             </li>
           ))}
           {savedRules.length === 0 && (

@@ -105,6 +105,28 @@
   line-height: 1.55;
 }
 
+.bubbleActions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.favMsgBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: #f8fafc;
+  font-size: 14px;
+  color: var(--color-text-muted);
+  line-height: 1;
+}
+
+.favMsgActive {
+  color: #ca8a04;
+  border-color: #fde68a;
+  background: #fffbeb;
+}
+
 .typing {
   font-size: 13px;
   color: var(--color-text-muted);

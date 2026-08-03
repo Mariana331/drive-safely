@@ -24,6 +24,12 @@
   font-weight: 600;
 }
 
+.favActive {
+  border-color: #fde68a;
+  background: #fffbeb;
+  color: #a16207;
+}
+
 .alert {
   display: flex;
   flex-direction: column;

@@ -19,6 +19,7 @@ import { useUserProgress } from '@/lib/progress/useUserProgress';
 import DashboardHeader from '@/components/dashboard/DashboardHeader/DashboardHeader';
 import DashboardFooter from '@/components/dashboard/DashboardFooter/DashboardFooter';
 import { useDictionary } from '@/lib/i18n/LocaleProvider';
+import { useFavorites, useIsFavorite } from '@/lib/favorites/useFavorites';
 import TestsSidebar from './TestsSidebar';
 import styles from './TestsPage.module.css';
 
@@ -52,6 +53,10 @@ function TestRow({
   test: TestCategory;
   onStart: () => void;
 }) {
+  const dict = useDictionary();
+  const { toggle } = useFavorites();
+  const saved = useIsFavorite('test', test.slug);
+
   return (
     <article className={styles.row}>
       <div className={styles.rowMain}>
@@ -63,6 +68,24 @@ function TestRow({
       </div>
       <DifficultyBadge difficulty={test.difficulty} />
       <ScoreRing score={test.lastScore} />
+      <button
+        type="button"
+        className={`${styles.favBtn} ${saved ? styles.favBtnActive : ''}`}
+        aria-label={saved ? dict.favorites.remove : dict.favorites.add}
+        aria-pressed={saved}
+        onClick={() =>
+          toggle({
+            kind: 'test',
+            entityId: test.slug,
+            title: test.name,
+            subtitle: `${test.questionCount} questions · ${DIFFICULTY_LABEL[test.difficulty]}`,
+            href: '/tests',
+            meta: test.icon,
+          })
+        }
+      >
+        {saved ? '★' : '☆'}
+      </button>
       <button type="button" className={styles.startBtn} onClick={onStart}>
         Start Test
       </button>
@@ -215,6 +238,7 @@ export default function TestsPageClient() {
               <span>Test</span>
               <span>Difficulty</span>
               <span>Last Score</span>
+              <span />
               <span>Action</span>
             </div>
 

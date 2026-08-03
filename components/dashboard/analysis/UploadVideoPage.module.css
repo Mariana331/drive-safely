@@ -176,6 +176,24 @@
   color: var(--color-primary);
 }
 
+.favBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: white;
+  font-size: 14px;
+  color: var(--color-text-muted);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.favBtnActive {
+  color: #ca8a04;
+  border-color: #fde68a;
+  background: #fffbeb;
+}
+
 .viewMuted {
   font-size: 13px;
   color: var(--color-text-muted);

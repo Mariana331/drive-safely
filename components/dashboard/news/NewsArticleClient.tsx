@@ -10,6 +10,8 @@ import {
 } from '@/lib/news/journey';
 import DashboardHeader from '@/components/dashboard/DashboardHeader/DashboardHeader';
 import DashboardFooter from '@/components/dashboard/DashboardFooter/DashboardFooter';
+import { useDictionary } from '@/lib/i18n/LocaleProvider';
+import { useFavorites, useIsFavorite } from '@/lib/favorites/useFavorites';
 import NewsCategoryBadge from './NewsCategoryBadge';
 import LearningJourney from './LearningJourney';
 import styles from './NewsArticle.module.css';
@@ -35,10 +37,27 @@ function renderBody(body: string) {
 }
 
 export default function NewsArticleClient({ article }: NewsArticleClientProps) {
+  const dict = useDictionary();
+  const { toggle } = useFavorites();
+  const saved = useIsFavorite('news', article.slug);
   const related =
     article.relatedLinks && article.relatedLinks.length > 0
       ? article.relatedLinks
       : NEWS_LEARNING_JOURNEY;
+
+  const handleFavorite = () => {
+    toggle({
+      kind: 'news',
+      entityId: article.slug,
+      title: article.title,
+      subtitle: article.excerpt,
+      href: `/news/${article.slug}`,
+      imageUrl: article.imageUrl || undefined,
+      meta: `${formatNewsDate(article.publishedAt)}${
+        article.readTimeMinutes ? ` · ${article.readTimeMinutes} min` : ''
+      }`,
+    });
+  };
 
   return (
     <>
@@ -48,9 +67,19 @@ export default function NewsArticleClient({ article }: NewsArticleClientProps) {
       />
 
       <div className={styles.page}>
-        <Link href="/news" className={styles.back}>
-          ← Back to News
-        </Link>
+        <div className={styles.topBar}>
+          <Link href="/news" className={styles.back}>
+            ← Back to News
+          </Link>
+          <button
+            type="button"
+            className={`${styles.favBtn} ${saved ? styles.favBtnActive : ''}`}
+            onClick={handleFavorite}
+            aria-pressed={saved}
+          >
+            {saved ? `★ ${dict.favorites.added}` : `☆ ${dict.favorites.add}`}
+          </button>
+        </div>
 
         <article className={styles.article}>
           <div className={styles.metaRow}>

@@ -20,7 +20,37 @@ import {
   createAnalysisSession,
   getRecentUploads,
 } from '@/lib/analysis/analysisSession';
+import { useFavorites, useIsFavorite } from '@/lib/favorites/useFavorites';
 import styles from './UploadVideoPage.module.css';
+
+function RecentFavoriteButton({ item }: { item: RecentUpload }) {
+  const dict = useDictionary();
+  const { toggle } = useFavorites();
+  const saved = useIsFavorite('analysis', item.id);
+
+  if (item.status !== 'analyzed') return null;
+
+  return (
+    <button
+      type="button"
+      className={`${styles.favBtn} ${saved ? styles.favBtnActive : ''}`}
+      aria-label={saved ? dict.favorites.remove : dict.favorites.add}
+      aria-pressed={saved}
+      onClick={() =>
+        toggle({
+          kind: 'analysis',
+          entityId: item.id,
+          title: item.title,
+          subtitle: 'Saved video analysis',
+          href: `/ai-analysis/results/${item.id}`,
+          meta: item.date,
+        })
+      }
+    >
+      {saved ? '★' : '☆'}
+    </button>
+  );
+}
 
 export default function UploadVideoPageClient() {
   const dict = useDictionary();
@@ -132,12 +162,15 @@ export default function UploadVideoPageClient() {
                       {STATUS_LABEL[item.status]}
                     </span>
                     {item.status === 'analyzed' ? (
-                      <Link
-                        href={`/ai-analysis/results/${item.id}`}
-                        className={styles.viewLink}
-                      >
-                        View
-                      </Link>
+                      <>
+                        <RecentFavoriteButton item={item} />
+                        <Link
+                          href={`/ai-analysis/results/${item.id}`}
+                          className={styles.viewLink}
+                        >
+                          View
+                        </Link>
+                      </>
                     ) : item.status === 'processing' ? (
                       <Link
                         href={`/ai-analysis/processing/${item.id}`}

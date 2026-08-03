@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import DashboardHeader from '@/components/dashboard/DashboardHeader/DashboardHeader';
+import { useDictionary } from '@/lib/i18n/LocaleProvider';
+import { useFavorites, useIsFavorite } from '@/lib/favorites/useFavorites';
 import {
   buildDemoResult,
   formatAnalysisDate,
@@ -20,7 +22,10 @@ const severityClass: Record<ViolationSeverity, string> = {
 };
 
 export default function ResultsPageClient() {
+  const dict = useDictionary();
   const params = useParams<{ id: string }>();
+  const { toggle } = useFavorites();
+  const saved = useIsFavorite('analysis', params.id);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
 
@@ -56,6 +61,17 @@ export default function ResultsPageClient() {
 
   const active = result.violations.find((v) => v.id === activeId) ?? result.violations[0];
 
+  const handleFavorite = () => {
+    toggle({
+      kind: 'analysis',
+      entityId: params.id,
+      title: result.title,
+      subtitle: `${result.violations.length} issues · risk ${result.riskScore.toFixed(1)}`,
+      href: `/ai-analysis/results/${params.id}`,
+      meta: formatAnalysisDate(result.createdAt),
+    });
+  };
+
   return (
     <>
       <DashboardHeader
@@ -65,6 +81,14 @@ export default function ResultsPageClient() {
 
       <div className={styles.page}>
         <div className={styles.topActions}>
+          <button
+            type="button"
+            className={`${styles.ghostBtn} ${saved ? styles.favActive : ''}`}
+            onClick={handleFavorite}
+            aria-pressed={saved}
+          >
+            {saved ? `★ ${dict.favorites.added}` : `☆ ${dict.favorites.add}`}
+          </button>
           <button type="button" className={styles.ghostBtn}>
             Download Report
           </button>
@@ -174,6 +198,9 @@ export default function ResultsPageClient() {
               </Link>
               <Link href="/assistant" className={styles.secondaryBtn}>
                 Ask AI Assistant
+              </Link>
+              <Link href="/favorites" className={styles.secondaryBtn}>
+                {dict.sidebar.favorites}
               </Link>
             </section>
           </aside>

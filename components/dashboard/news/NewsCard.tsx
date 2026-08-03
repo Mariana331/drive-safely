@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
+import Image from 'next/image';
 import type { NewsArticle } from '@/lib/api/api';
 import { formatNewsDate } from '@/lib/news/newsData';
+import { useDictionary } from '@/lib/i18n/LocaleProvider';
+import { useFavorites, useIsFavorite } from '@/lib/favorites/useFavorites';
 import NewsCategoryBadge from './NewsCategoryBadge';
 import styles from './NewsCard.module.css';
 
@@ -13,9 +14,23 @@ interface NewsCardProps {
 }
 
 export default function NewsCard({ article }: NewsCardProps) {
-  const [saved, setSaved] = useState(false);
+  const dict = useDictionary();
+  const { toggle } = useFavorites();
+  const saved = useIsFavorite('news', article.slug);
   const readTime = article.readTimeMinutes ?? 3;
   const isOfficial = article.sourceType === 'legislation';
+
+  const handleToggle = () => {
+    toggle({
+      kind: 'news',
+      entityId: article.slug,
+      title: article.title,
+      subtitle: article.excerpt,
+      href: `/news/${article.slug}`,
+      imageUrl: article.imageUrl || undefined,
+      meta: `${formatNewsDate(article.publishedAt)} · ${readTime} min`,
+    });
+  };
 
   return (
     <article className={styles.card}>
@@ -65,8 +80,9 @@ export default function NewsCard({ article }: NewsCardProps) {
           <button
             type="button"
             className={`${styles.bookmark} ${saved ? styles.bookmarkActive : ''}`}
-            aria-label={saved ? 'Remove bookmark' : 'Save article'}
-            onClick={() => setSaved(!saved)}
+            aria-label={saved ? dict.favorites.remove : dict.favorites.add}
+            aria-pressed={saved}
+            onClick={handleToggle}
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path

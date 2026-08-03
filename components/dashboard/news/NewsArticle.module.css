@@ -3,12 +3,35 @@
   max-width: 860px;
 }
 
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: var(--spacing-md);
+}
+
 .back {
   display: inline-flex;
-  margin-bottom: var(--spacing-md);
   font-size: 13px;
   font-weight: 600;
   color: var(--color-primary);
+}
+
+.favBtn {
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--color-border);
+  background: white;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.favBtnActive {
+  border-color: #fde68a;
+  background: #fffbeb;
+  color: #a16207;
 }
 
 .article {

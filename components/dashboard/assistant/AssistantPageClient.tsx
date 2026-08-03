@@ -24,6 +24,8 @@ import {
   type ChatMessage,
 } from '@/lib/assistant/chatSession';
 import { useUserProgress } from '@/lib/progress/useUserProgress';
+import { useDictionary } from '@/lib/i18n/LocaleProvider';
+import { useFavorites, useIsFavorite } from '@/lib/favorites/useFavorites';
 import styles from './AssistantPage.module.css';
 
 function renderText(text: string) {
@@ -37,6 +39,37 @@ function renderText(text: string) {
       />
     );
   });
+}
+
+function AssistantFavoriteButton({ message }: { message: ChatMessage }) {
+  const dict = useDictionary();
+  const { toggle } = useFavorites();
+  const saved = useIsFavorite('assistant', message.id);
+  const preview = message.text.replace(/\*\*/g, '').slice(0, 140);
+  const ruleMeta = message.rules?.[0]
+    ? `Traffic Rule ${message.rules[0].code}`
+    : 'AI tip';
+
+  return (
+    <button
+      type="button"
+      className={`${styles.favMsgBtn} ${saved ? styles.favMsgActive : ''}`}
+      aria-label={saved ? dict.favorites.remove : dict.favorites.add}
+      aria-pressed={saved}
+      onClick={() =>
+        toggle({
+          kind: 'assistant',
+          entityId: message.id,
+          title: preview || 'AI assistant answer',
+          subtitle: ruleMeta,
+          href: '/assistant',
+          meta: new Date(message.createdAt).toLocaleDateString(),
+        })
+      }
+    >
+      {saved ? '★' : '☆'}
+    </button>
+  );
 }
 
 export default function AssistantPageClient() {
@@ -184,6 +217,12 @@ export default function AssistantPageClient() {
                     </div>
                   ) : null}
                   <div className={styles.bubbleText}>{renderText(msg.text)}</div>
+
+                  {msg.role === 'assistant' ? (
+                    <div className={styles.bubbleActions}>
+                      <AssistantFavoriteButton message={msg} />
+                    </div>
+                  ) : null}
 
                   {msg.rules && msg.rules.length > 0 ? (
                     <div className={styles.rules}>
