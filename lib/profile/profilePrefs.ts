@@ -27,6 +27,9 @@ export function loadProfilePrefs(): ProfilePrefs | null {
 
 export function saveProfilePrefs(prefs: ProfilePrefs) {
   writeUserJson(STORAGE_KEY, prefs);
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new Event('drivesafely:profile-updated'));
+  }
 }
 
 export function splitFullName(fullName: string): {

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ShieldIcon } from '@/components/icons';
 import LanguageSwitcher from '@/components/i18n/LanguageSwitcher';
+import ThemeToggle from '@/components/theme/ThemeToggle';
 import { useDictionary } from '@/lib/i18n/LocaleProvider';
 import styles from './Sidebar.module.css';
 
@@ -79,10 +80,7 @@ export default function Sidebar() {
           <LanguageSwitcher variant="sidebar" />
         </div>
 
-        <div className={styles.darkMode}>
-          <span>🌙 {s.darkMode}</span>
-          <button className={styles.toggle} disabled aria-label={s.darkMode} />
-        </div>
+        <ThemeToggle variant="sidebar" />
       </aside>
     </>
   );

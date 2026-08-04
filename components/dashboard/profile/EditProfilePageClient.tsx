@@ -6,6 +6,8 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import DashboardHeader from '@/components/dashboard/DashboardHeader/DashboardHeader';
 import DashboardFooter from '@/components/dashboard/DashboardFooter/DashboardFooter';
+import LanguageSwitcher from '@/components/i18n/LanguageSwitcher';
+import ThemeToggle from '@/components/theme/ThemeToggle';
 import { useAuth } from '@/lib/auth/AuthProvider';
 import { useDictionary } from '@/lib/i18n/LocaleProvider';
 import {
@@ -128,7 +130,10 @@ export default function EditProfilePageClient() {
           </a>
           <a href="#change-password">{t.navPassword}</a>
           <span className={styles.navMuted}>{t.navNotifications}</span>
-          <span className={styles.navMuted}>{t.navLanguage}</span>
+          <div className={styles.navTools}>
+            <LanguageSwitcher variant="auth" />
+            <ThemeToggle variant="compact" />
+          </div>
           <span className={styles.navMuted}>{t.navPrivacy}</span>
         </nav>
 

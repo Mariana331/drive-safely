@@ -28,6 +28,10 @@
   flex-shrink: 0;
 }
 
+.bellWrap {
+  position: relative;
+}
+
 .bell {
   position: relative;
   font-size: 20px;
@@ -45,12 +49,118 @@
   color: white;
   font-size: 10px;
   font-weight: 700;
-  width: 16px;
+  min-width: 16px;
   height: 16px;
-  border-radius: 50%;
+  padding: 0 4px;
+  border-radius: 999px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: min(360px, calc(100vw - 32px));
+  max-height: 420px;
+  overflow: auto;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  box-shadow: var(--shadow-card);
+  z-index: 50;
+}
+
+.dropdownHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 14px;
+}
+
+.markAll {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.empty {
+  padding: 18px 14px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  gap: 10px;
+  align-items: start;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.item:hover {
+  background: var(--color-panel);
+  opacity: 1;
+}
+
+.itemUnread {
+  background: var(--color-hover);
+}
+
+.itemIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: var(--color-panel);
+  border: 1px solid var(--color-border);
+}
+
+.itemBody {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.itemTitle {
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.itemText {
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--color-text-muted);
+}
+
+.itemTime {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  margin-top: 6px;
 }
 
 .userMenu {
@@ -60,9 +170,11 @@
 }
 
 .avatar {
+  position: relative;
   width: 36px;
   height: 36px;
   border-radius: 50%;
+  overflow: hidden;
   background: var(--color-primary);
   color: white;
   font-size: 13px;
@@ -70,12 +182,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+}
+
+.avatarImage {
+  object-fit: cover;
 }
 
 .name {
   font-size: 14px;
   font-weight: 600;
   display: none;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .logout {

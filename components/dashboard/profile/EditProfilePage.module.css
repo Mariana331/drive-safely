@@ -37,6 +37,12 @@
   opacity: 0.7;
 }
 
+.navTools {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .card {
   background: #f8fafc;
   border: 1px solid var(--color-border);

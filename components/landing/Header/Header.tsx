@@ -1,12 +1,19 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ShieldIcon } from '@/components/icons';
 import { useAuth } from '@/lib/auth/AuthProvider';
 import { useDictionary } from '@/lib/i18n/LocaleProvider';
 import Button from '@/components/ui/Button/Button';
 import LanguageSwitcher from '@/components/i18n/LanguageSwitcher';
+import ThemeToggle from '@/components/theme/ThemeToggle';
+import {
+  loadProfilePrefs,
+  resolveDisplayName,
+  type ProfilePrefs,
+} from '@/lib/profile/profilePrefs';
 import MobileMenu, { HamburgerButton } from './MobileMenu';
 import styles from './Header.module.css';
 
@@ -21,8 +28,20 @@ function getInitials(name: string) {
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [prefs, setPrefs] = useState<ProfilePrefs | null>(null);
   const { user, loading, logout } = useAuth();
   const dict = useDictionary();
+
+  useEffect(() => {
+    const refresh = () => setPrefs(loadProfilePrefs());
+    refresh();
+    window.addEventListener('drivesafely:profile-updated', refresh);
+    return () =>
+      window.removeEventListener('drivesafely:profile-updated', refresh);
+  }, [user?._id]);
+
+  const displayName = user ? resolveDisplayName(user.fullName, prefs) : '';
+  const avatarSrc = prefs?.avatarDataUrl || user?.avatarUrl || '';
 
   const navLinks = [
     { label: dict.nav.home, href: '#home' },
@@ -57,14 +76,28 @@ export default function Header() {
         </nav>
 
         <div className={styles.actions}>
+          <ThemeToggle variant="compact" />
           <LanguageSwitcher variant="header" />
           {loading ? (
             <div className={styles.authSkeleton} aria-hidden="true" />
           ) : user ? (
             <div className={styles.userMenu}>
               <Link href="/profile" className={styles.userLink}>
-                <span className={styles.avatar}>{getInitials(user.fullName)}</span>
-                <span className={styles.userName}>{user.fullName}</span>
+                <span className={styles.avatar}>
+                  {avatarSrc ? (
+                    <Image
+                      src={avatarSrc}
+                      alt=""
+                      fill
+                      className={styles.avatarImage}
+                      sizes="36px"
+                      unoptimized={avatarSrc.startsWith('data:')}
+                    />
+                  ) : (
+                    getInitials(displayName || user.fullName)
+                  )}
+                </span>
+                <span className={styles.userName}>{displayName}</span>
               </Link>
               <button
                 type="button"
