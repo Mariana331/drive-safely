@@ -15,12 +15,14 @@ html[data-theme='light'] {
   --color-text-muted: #64748b;
   --color-bg: #f8fafc;
   --color-white: #ffffff;
+  --color-inverse: #ffffff;
   --color-border: #e2e8f0;
   --color-footer-bg: #0f172a;
   --color-footer-text: #94a3b8;
   --color-panel: #f8fafc;
   --color-panel-strong: #f1f5f9;
   --color-hover: #eff6ff;
+  --color-brand-mark: #0f172a;
 
   --radius-card: 24px;
   --radius-button: 12px;
@@ -57,12 +59,14 @@ html[data-theme='dark'] {
   --color-text-muted: #94a3b8;
   --color-bg: #0b1220;
   --color-white: #111827;
+  --color-inverse: #f8fafc;
   --color-border: #1f2937;
   --color-footer-bg: #020617;
   --color-footer-text: #94a3b8;
   --color-panel: #0f172a;
   --color-panel-strong: #1e293b;
   --color-hover: #172554;
+  --color-brand-mark: #f8fafc;
 
   --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.35);
   --shadow-button: 0 2px 8px rgba(59, 130, 246, 0.35);

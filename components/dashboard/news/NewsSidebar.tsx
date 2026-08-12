@@ -15,11 +15,15 @@ import styles from './NewsSidebar.module.css';
 interface NewsSidebarProps {
   topStories: NewsArticle[];
   categoryCounts: Record<string, number>;
+  onViewAll?: () => void;
+  onSelectCategory?: (category: string) => void;
 }
 
 export default function NewsSidebar({
   topStories,
   categoryCounts,
+  onViewAll,
+  onSelectCategory,
 }: NewsSidebarProps) {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
@@ -39,9 +43,13 @@ export default function NewsSidebar({
       <section className={styles.widget}>
         <div className={styles.widgetHeader}>
           <h2 className={styles.widgetTitle}>Top Stories</h2>
-          <Link href="/news" className={styles.viewAll}>
+          <button
+            type="button"
+            className={styles.viewAll}
+            onClick={() => onViewAll?.()}
+          >
             View all →
-          </Link>
+          </button>
         </div>
         <ul className={styles.storyList}>
           {topStories.slice(0, 3).map((story) => (
@@ -81,11 +89,17 @@ export default function NewsSidebar({
 
             return (
               <li key={filter.id} className={styles.categoryItem}>
-                <span className={styles.categoryLeft}>
-                  <span className={styles.categoryIcon}>{filter.icon}</span>
-                  <span>{filter.label}</span>
-                </span>
-                <span className={styles.categoryCount}>{count}</span>
+                <button
+                  type="button"
+                  className={styles.categoryBtn}
+                  onClick={() => onSelectCategory?.(filter.id)}
+                >
+                  <span className={styles.categoryLeft}>
+                    <span className={styles.categoryIcon}>{filter.icon}</span>
+                    <span>{filter.label}</span>
+                  </span>
+                  <span className={styles.categoryCount}>{count}</span>
+                </button>
               </li>
             );
           })}

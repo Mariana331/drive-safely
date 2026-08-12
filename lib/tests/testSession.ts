@@ -54,10 +54,15 @@ function timeLimitFor(mode: SessionMode) {
   return null;
 }
 
-function countFor(mode: SessionMode) {
+function countFor(mode: SessionMode, category?: string) {
+  if (mode === 'category' && category) {
+    const found = FALLBACK_TESTS.find(
+      (t) => t.category === category || t.slug === category,
+    );
+    if (found) return found.questionCount;
+  }
   if (mode === 'exam') return 20;
   if (mode === 'quick') return 5;
-  if (mode === 'category') return 8;
   if (mode === 'review') return 8;
   return 10;
 }
@@ -81,7 +86,7 @@ export function createTestSession(options: {
   const questions = pickQuestions({
     mode: options.mode,
     category: options.category,
-    count: countFor(options.mode),
+    count: countFor(options.mode, options.category),
   });
 
   const session: TestSession = {

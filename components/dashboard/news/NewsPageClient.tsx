@@ -209,7 +209,7 @@ export default function NewsPageClient({
         </div>
 
         <div className={styles.content}>
-          <div className={styles.main}>
+          <div className={styles.main} id="news-feed">
             {paginated.items.length === 0 ? (
               <div className={styles.empty}>
                 <p>No articles in this section yet.</p>
@@ -282,6 +282,37 @@ export default function NewsPageClient({
           <NewsSidebar
             topStories={topStories}
             categoryCounts={categoryCounts}
+            onViewAll={() => {
+              setSearch('');
+              setCategory('all');
+              setCountry('All Countries');
+              setPage(1);
+              if (stream === 'laws' && general.length > 0) {
+                setStream('general');
+              }
+              window.requestAnimationFrame(() => {
+                document
+                  .getElementById('news-feed')
+                  ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              });
+            }}
+            onSelectCategory={(nextCategory) => {
+              if (nextCategory === 'Traffic Laws') {
+                setStream('laws');
+                setCategory('all');
+              } else {
+                setStream('general');
+                setCategory(nextCategory);
+              }
+              setSearch('');
+              setCountry('All Countries');
+              setPage(1);
+              window.requestAnimationFrame(() => {
+                document
+                  .getElementById('news-feed')
+                  ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              });
+            }}
           />
         </div>
       </div>

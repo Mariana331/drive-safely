@@ -1,4 +1,5 @@
 import type { TestDifficulty } from './testsData';
+import { EXTRA_QUESTIONS } from './questionBankExtra';
 
 export interface TestQuestion {
   id: string;
@@ -10,7 +11,7 @@ export interface TestQuestion {
   explanation: string;
 }
 
-export const QUESTION_BANK: TestQuestion[] = [
+const CORE_QUESTIONS: TestQuestion[] = [
   {
     id: 'q1',
     category: 'signs',
@@ -408,6 +409,15 @@ export const QUESTION_BANK: TestQuestion[] = [
   },
 ];
 
+export const QUESTION_BANK: TestQuestion[] = [
+  ...CORE_QUESTIONS,
+  ...(EXTRA_QUESTIONS as TestQuestion[]),
+];
+
+export function getCategoryQuestionCount(category: string) {
+  return QUESTION_BANK.filter((q) => q.category === category).length;
+}
+
 export function shuffle<T>(items: T[]): T[] {
   const copy = [...items];
   for (let i = copy.length - 1; i > 0; i -= 1) {
@@ -427,6 +437,15 @@ export function pickQuestions(options: {
 
   if (mode === 'category' && category) {
     pool = pool.filter((q) => q.category === category);
+    const wanted = options.count ?? pool.length;
+    if (pool.length < wanted) {
+      // Top up from full bank if a category is still short (should not happen).
+      const extra = shuffle(
+        QUESTION_BANK.filter((q) => q.category !== category),
+      ).slice(0, wanted - pool.length);
+      return shuffle([...pool, ...extra]).slice(0, wanted);
+    }
+    return shuffle(pool).slice(0, wanted);
   }
 
   if (mode === 'ai' || mode === 'challenge') {

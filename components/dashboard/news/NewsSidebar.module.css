@@ -28,6 +28,14 @@
   font-size: 12px;
   font-weight: 600;
   color: var(--color-primary);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.viewAll:hover {
+  text-decoration: underline;
 }
 
 .storyList {
@@ -97,10 +105,26 @@
 }
 
 .categoryItem {
+  font-size: 13px;
+}
+
+.categoryBtn {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 13px;
+  gap: 10px;
+  padding: 8px 0;
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.categoryBtn:hover {
+  color: var(--color-primary);
 }
 
 .categoryLeft {

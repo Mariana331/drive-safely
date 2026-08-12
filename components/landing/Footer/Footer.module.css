@@ -33,11 +33,11 @@
   font-size: 18px;
   font-weight: 800;
   letter-spacing: -0.02em;
-  color: var(--color-white);
+  color: var(--color-inverse);
 }
 
 .logoDrive {
-  color: var(--color-white);
+  color: var(--color-inverse);
 }
 
 .logoSafely {
@@ -63,7 +63,7 @@
 .columnTitle {
   font-size: 14px;
   font-weight: 700;
-  color: var(--color-white);
+  color: var(--color-inverse);
   margin-bottom: var(--spacing-md);
 }
 
@@ -79,7 +79,7 @@
 }
 
 .link:hover {
-  color: var(--color-white);
+  color: var(--color-inverse);
   opacity: 1;
 }
 
@@ -102,7 +102,7 @@
 
 .socialLink:hover {
   background: rgba(255, 255, 255, 0.2);
-  color: var(--color-white);
+  color: var(--color-inverse);
   opacity: 1;
 }
 
