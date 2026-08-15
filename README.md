@@ -6,12 +6,12 @@ AI-powered платформа для безпечного водіння: ана
 
 ## Стек
 
-| Частина | Технології |
-|--------|------------|
+| Частина  | Технології                                    |
+| -------- | --------------------------------------------- |
 | Frontend | Next.js 16, React 19, TypeScript, CSS Modules |
-| Backend | Express, MongoDB, JWT (cookie), Swagger |
-| i18n | EN / UK |
-| Тема | Light / Dark |
+| Backend  | Express, MongoDB, JWT (cookie), Swagger       |
+| i18n     | EN / UK                                       |
+| Тема     | Light / Dark                                  |
 
 ## Можливості
 
@@ -81,44 +81,33 @@ API_INTERNAL_URL=http://localhost:3002
 
 ### Backend (`drive-safely-node.js`)
 
-Створіть `.env`:
-
-```env
-PORT=3002
-FRONTEND_URL=http://localhost:3000
-MONGODB_URI=mongodb://127.0.0.1:27017/drive-safely
-JWT_SECRET=change-me-in-production
-JWT_EXPIRES_IN=7d
-NODE_ENV=development
-```
-
 ## Основні маршрути (frontend)
 
-| Шлях | Опис |
-|------|------|
-| `/` | Лендінг |
-| `/login`, `/signup` | Автентифікація |
-| `/profile` | Дашборд / профіль |
-| `/ai-analysis` | Завантаження та аналіз відео |
-| `/traffic-rules` | Правила ПДР |
-| `/tests` | Практичні тести |
-| `/assistant` | AI-помічник |
-| `/news` | Новини |
-| `/saved-rules` | Збережені правила |
-| `/favorites` | Обране |
+| Шлях                | Опис                         |
+| ------------------- | ---------------------------- |
+| `/`                 | Лендінг                      |
+| `/login`, `/signup` | Автентифікація               |
+| `/profile`          | Дашборд / профіль            |
+| `/ai-analysis`      | Завантаження та аналіз відео |
+| `/traffic-rules`    | Правила ПДР                  |
+| `/tests`            | Практичні тести              |
+| `/assistant`        | AI-помічник                  |
+| `/news`             | Новини                       |
+| `/saved-rules`      | Збережені правила            |
+| `/favorites`        | Обране                       |
 
 ## API (backend)
 
-| Method | Path | Auth |
-|--------|------|------|
-| `GET` | `/api/health` | — |
-| `POST` | `/api/auth/register` | — |
-| `POST` | `/api/auth/login` | — |
-| `POST` | `/api/auth/logout` | — |
-| `GET` | `/api/auth/me` | cookie |
-| `GET` | `/api/news` | — |
-| `GET` | `/api/news/:slug` | — |
-| `GET` | `/api/users/me/profile` | cookie |
+| Method | Path                    | Auth   |
+| ------ | ----------------------- | ------ |
+| `GET`  | `/api/health`           | —      |
+| `POST` | `/api/auth/register`    | —      |
+| `POST` | `/api/auth/login`       | —      |
+| `POST` | `/api/auth/logout`      | —      |
+| `GET`  | `/api/auth/me`          | cookie |
+| `GET`  | `/api/news`             | —      |
+| `GET`  | `/api/news/:slug`       | —      |
+| `GET`  | `/api/users/me/profile` | cookie |
 
 Повна документація: **Swagger** → `http://localhost:3002/api-docs`
 
