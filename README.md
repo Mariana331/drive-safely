@@ -66,19 +66,6 @@ npm install
 npm run dev           # http://localhost:3000
 ```
 
-## Змінні середовища
-
-### Frontend (`drive-safely`)
-
-Створіть `.env.local`:
-
-```env
-# Локальний backend (якщо не задано — Render production URL)
-NEXT_PUBLIC_API_URL=http://localhost:3002
-# або для server-only proxy:
-API_INTERNAL_URL=http://localhost:3002
-```
-
 ### Backend (`drive-safely-node.js`)
 
 ## Основні маршрути (frontend)
