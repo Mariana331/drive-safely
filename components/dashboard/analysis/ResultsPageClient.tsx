@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import DashboardHeader from '@/components/dashboard/DashboardHeader/DashboardHeader';
 import { useDictionary } from '@/lib/i18n/LocaleProvider';
@@ -13,6 +14,10 @@ import {
   type ViolationSeverity,
 } from '@/lib/analysis/analysisData';
 import { getAnalysisSession } from '@/lib/analysis/analysisSession';
+import {
+  getAnalysisVideoBlob,
+  parseTimeLabel,
+} from '@/lib/analysis/analysisVideoStore';
 import styles from './ResultsPage.module.css';
 
 const severityClass: Record<ViolationSeverity, string> = {
@@ -26,8 +31,11 @@ export default function ResultsPageClient() {
   const params = useParams<{ id: string }>();
   const { toggle } = useFavorites();
   const saved = useIsFavorite('analysis', params.id);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [videoUrl, setVideoUrl] = useState<string | null>(null);
+  const [videoMissing, setVideoMissing] = useState(false);
 
   useEffect(() => {
     const session = getAnalysisSession(params.id);
@@ -44,6 +52,46 @@ export default function ResultsPageClient() {
       setActiveId(demo.violations[0]?.id ?? null);
     }
   }, [params.id]);
+
+  useEffect(() => {
+    let objectUrl: string | null = null;
+    let cancelled = false;
+
+    (async () => {
+      const blob = await getAnalysisVideoBlob(params.id);
+      if (cancelled) return;
+      if (!blob) {
+        setVideoMissing(true);
+        setVideoUrl(null);
+        return;
+      }
+      objectUrl = URL.createObjectURL(blob);
+      setVideoUrl(objectUrl);
+      setVideoMissing(false);
+    })();
+
+    return () => {
+      cancelled = true;
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+    };
+  }, [params.id]);
+
+  useEffect(() => {
+    if (!result || !activeId || !videoRef.current) return;
+    const active = result.violations.find((v) => v.id === activeId);
+    if (!active) return;
+    const seconds = parseTimeLabel(active.timeLabel);
+    const video = videoRef.current;
+    const seek = () => {
+      try {
+        video.currentTime = seconds;
+      } catch {
+        // ignore seek errors before metadata is ready
+      }
+    };
+    if (video.readyState >= 1) seek();
+    else video.addEventListener('loadedmetadata', seek, { once: true });
+  }, [activeId, result, videoUrl]);
 
   if (!result) {
     return (
@@ -72,6 +120,62 @@ export default function ResultsPageClient() {
     });
   };
 
+  const handleDownloadReport = () => {
+    const lines = [
+      `DriveSafely Analysis Report`,
+      `Title: ${result.title}`,
+      `Date: ${formatAnalysisDate(result.createdAt)}`,
+      `Risk score: ${result.riskScore.toFixed(1)}`,
+      '',
+      'Violations:',
+      ...result.violations.map(
+        (v) =>
+          `- [${v.severity}] ${v.timeLabel} ${v.title}: ${v.description}`,
+      ),
+    ];
+    const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${result.title.replace(/\s+/g, '_')}_report.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleShare = async () => {
+    const shareUrl = window.location.href;
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: `Analysis: ${result.title}`,
+          text: `${result.violations.length} issues · risk ${result.riskScore.toFixed(1)}`,
+          url: shareUrl,
+        });
+        return;
+      }
+    } catch {
+      // fall through to clipboard
+    }
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+    } catch {
+      // ignore
+    }
+  };
+
+  const selectViolation = (id: string) => {
+    setActiveId(id);
+    const item = result.violations.find((v) => v.id === id);
+    if (!item || !videoRef.current) return;
+    const seconds = parseTimeLabel(item.timeLabel);
+    try {
+      videoRef.current.currentTime = seconds;
+      void videoRef.current.play();
+    } catch {
+      // ignore
+    }
+  };
+
   return (
     <>
       <DashboardHeader
@@ -89,10 +193,14 @@ export default function ResultsPageClient() {
           >
             {saved ? `★ ${dict.favorites.added}` : `☆ ${dict.favorites.add}`}
           </button>
-          <button type="button" className={styles.ghostBtn}>
+          <button
+            type="button"
+            className={styles.ghostBtn}
+            onClick={handleDownloadReport}
+          >
             Download Report
           </button>
-          <button type="button" className={styles.ghostBtn}>
+          <button type="button" className={styles.ghostBtn} onClick={handleShare}>
             Share
           </button>
         </div>
@@ -106,7 +214,30 @@ export default function ResultsPageClient() {
           <div className={styles.mainCol}>
             <section className={styles.playerCard}>
               <div className={styles.player}>
-                <div className={styles.playerIcon}>▶️</div>
+                {videoUrl ? (
+                  <video
+                    ref={videoRef}
+                    className={styles.video}
+                    src={videoUrl}
+                    controls
+                    playsInline
+                    preload="metadata"
+                  />
+                ) : (
+                  <div className={styles.playerFallback}>
+                    <div className={styles.playerIcon}>▶️</div>
+                    <p>
+                      {videoMissing
+                        ? 'Original video is unavailable for this session. Upload again to replay.'
+                        : 'Loading video…'}
+                    </p>
+                    {videoMissing && (
+                      <Link href="/ai-analysis" className={styles.primaryBtn}>
+                        Upload Video
+                      </Link>
+                    )}
+                  </div>
+                )}
                 {active && (
                   <div className={styles.overlayTag}>
                     {active.title} · {active.timeLabel}
@@ -126,7 +257,7 @@ export default function ResultsPageClient() {
                           10 + result.violations.indexOf(v) * 28,
                         )}%`,
                       }}
-                      onClick={() => setActiveId(v.id)}
+                      onClick={() => selectViolation(v.id)}
                       aria-label={v.title}
                     />
                   ))}
@@ -147,7 +278,7 @@ export default function ResultsPageClient() {
                     <button
                       type="button"
                       className={styles.violationBtn}
-                      onClick={() => setActiveId(v.id)}
+                      onClick={() => selectViolation(v.id)}
                     >
                       <div className={styles.violationTop}>
                         <strong>{v.title}</strong>
@@ -202,6 +333,24 @@ export default function ResultsPageClient() {
               <Link href="/favorites" className={styles.secondaryBtn}>
                 {dict.sidebar.favorites}
               </Link>
+            </section>
+
+            <section className={styles.funFact}>
+              <div className={styles.funFactIcon}>💡</div>
+              <div className={styles.funFactBody}>
+                <strong>Fun fact</strong>
+                <p>
+                  Checking mirrors every 5–8 seconds helps you spot risks before
+                  they become emergencies.
+                </p>
+              </div>
+              <Image
+                src="/images/smarter/smarter.png"
+                alt=""
+                width={96}
+                height={104}
+                className={styles.funFactMascot}
+              />
             </section>
           </aside>
         </div>

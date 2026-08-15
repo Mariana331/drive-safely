@@ -30,7 +30,12 @@ export function readUserJson<T>(baseKey: string, fallback: T): T {
   try {
     let raw = localStorage.getItem(scoped);
     if (!raw) {
-      const legacy = localStorage.getItem(baseKey);
+      // Migrate unscoped legacy key, then guest-scoped data for this user.
+      const legacy =
+        localStorage.getItem(baseKey) ??
+        (getProgressUserId()
+          ? localStorage.getItem(`${baseKey}:guest`)
+          : null);
       if (legacy) {
         localStorage.setItem(scoped, legacy);
         raw = legacy;

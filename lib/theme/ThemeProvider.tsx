@@ -13,7 +13,9 @@ import {
   THEME_COOKIE,
   THEME_STORAGE_KEY,
   getSystemTheme,
+  nextTheme,
   normalizeTheme,
+  themeColorScheme,
   type Theme,
 } from './config';
 
@@ -21,13 +23,14 @@ type ThemeContextValue = {
   theme: Theme;
   setTheme: (theme: Theme) => void;
   toggleTheme: () => void;
+  cycleTheme: () => void;
 };
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 function applyTheme(theme: Theme) {
   document.documentElement.setAttribute('data-theme', theme);
-  document.documentElement.style.colorScheme = theme;
+  document.documentElement.style.colorScheme = themeColorScheme(theme);
 }
 
 function persistTheme(theme: Theme) {
@@ -59,18 +62,21 @@ export function ThemeProvider({
     persistTheme(next);
   }, []);
 
-  const toggleTheme = useCallback(() => {
+  const cycleTheme = useCallback(() => {
     setThemeState((prev) => {
-      const next: Theme = prev === 'dark' ? 'light' : 'dark';
+      const next = nextTheme(prev);
       applyTheme(next);
       persistTheme(next);
       return next;
     });
   }, []);
 
+  /** Keep toggle as cycle for backward-compatible callers. */
+  const toggleTheme = cycleTheme;
+
   const value = useMemo(
-    () => ({ theme, setTheme, toggleTheme }),
-    [theme, setTheme, toggleTheme],
+    () => ({ theme, setTheme, toggleTheme, cycleTheme }),
+    [theme, setTheme, toggleTheme, cycleTheme],
   );
 
   return (

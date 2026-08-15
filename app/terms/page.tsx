@@ -18,8 +18,8 @@ export default function TermsPage() {
           AI analysis is provided for educational purposes and does not replace
           professional legal advice or official traffic authority guidance.
         </p>
-        <Link href="/signup" className={styles.back}>
-          ← Back to sign up
+        <Link href="/" className={styles.back}>
+          ← Back to home
         </Link>
       </div>
     </div>

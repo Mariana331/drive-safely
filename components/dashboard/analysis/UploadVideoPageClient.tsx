@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import DashboardHeader from '@/components/dashboard/DashboardHeader/DashboardHeader';
 import DashboardFooter from '@/components/dashboard/DashboardFooter/DashboardFooter';
@@ -20,6 +21,7 @@ import {
   createAnalysisSession,
   getRecentUploads,
 } from '@/lib/analysis/analysisSession';
+import { storeAnalysisVideo } from '@/lib/analysis/analysisVideoStore';
 import { useFavorites, useIsFavorite } from '@/lib/favorites/useFavorites';
 import styles from './UploadVideoPage.module.css';
 
@@ -64,7 +66,7 @@ export default function UploadVideoPageClient() {
     setRecent(getRecentUploads(FALLBACK_RECENT));
   }, []);
 
-  const handleFile = (file: File | undefined) => {
+  const handleFile = async (file: File | undefined) => {
     setError('');
     if (!file) return;
 
@@ -83,6 +85,11 @@ export default function UploadVideoPageClient() {
     }
 
     const session = createAnalysisSession(file);
+    try {
+      await storeAnalysisVideo(session.id, file);
+    } catch {
+      // Analysis can continue without replay if storage fails.
+    }
     router.push(`/ai-analysis/processing/${session.id}`);
   };
 
@@ -139,8 +146,13 @@ export default function UploadVideoPageClient() {
                   />
                 </div>
                 <div className={styles.uploadArt} aria-hidden="true">
-                  <div className={styles.artCar}>🚗</div>
-                  <div className={styles.artMascot}>🛡️</div>
+                  <Image
+                    src="/images/smarter/minismarter.png"
+                    alt=""
+                    width={120}
+                    height={130}
+                    className={styles.artMascot}
+                  />
                   <p>Drive smarter with AI feedback</p>
                 </div>
               </div>
@@ -190,20 +202,29 @@ export default function UploadVideoPageClient() {
           </div>
 
           <aside className={styles.sidebar}>
-            <section className={styles.tipsCard}>
-              <h3>Tips for Better Analysis</h3>
-              <ul className={styles.tipsList}>
-                {ANALYSIS_TIPS.map((tip) => (
-                  <li key={tip.title}>
-                    <span className={styles.tipIcon}>{tip.icon}</span>
-                    <div>
-                      <strong>{tip.title}</strong>
-                      <p>{tip.text}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </section>
+            <div className={styles.tipsWrap}>
+              <section className={styles.tipsCard}>
+                <h3>Tips for Better Analysis</h3>
+                <ul className={styles.tipsList}>
+                  {ANALYSIS_TIPS.map((tip) => (
+                    <li key={tip.title}>
+                      <span className={styles.tipIcon}>{tip.icon}</span>
+                      <div>
+                        <strong>{tip.title}</strong>
+                        <p>{tip.text}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+              <Image
+                src="/images/smarter/smarter.png"
+                alt=""
+                width={140}
+                height={150}
+                className={styles.tipsMascot}
+              />
+            </div>
 
             <section className={styles.assistantCard}>
               <div className={styles.assistantIcon}>🤖</div>

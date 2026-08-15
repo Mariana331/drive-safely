@@ -6,7 +6,12 @@ import { UploadIcon, PlayIcon } from '@/components/icons';
 import { useDictionary } from '@/lib/i18n/LocaleProvider';
 import styles from './Hero.module.css';
 
-const avatars = ['#3B82F6', '#22C55E', '#F59E0B', '#8B5CF6'];
+const AVATARS = [
+  '/images/people/images.jpg',
+  '/images/people/images (1).jpg',
+  '/images/people/images (2).jpg',
+  '/images/people/images (3).jpg',
+];
 
 export default function Hero() {
   const dict = useDictionary();
@@ -23,6 +28,16 @@ export default function Hero() {
           className={styles.heroImage}
           sizes="100vw"
         />
+        <div className={styles.mascot} aria-hidden="true">
+          <Image
+            src="/images/smarter/minismarter.png"
+            alt=""
+            width={200}
+            height={220}
+            priority
+            className={styles.mascotImage}
+          />
+        </div>
       </div>
 
       <div className={`container_beforeAuth ${styles.inner}`}>
@@ -52,17 +67,27 @@ export default function Hero() {
             </Button>
           </div>
           <div className={styles.socialProof}>
-            <div className={styles.avatars}>
-              {avatars.map((color, i) => (
+            <div className={styles.avatars} aria-hidden="true">
+              {AVATARS.map((src, index) => (
                 <span
-                  key={i}
+                  key={src}
                   className={styles.avatar}
-                  style={{ background: color }}
-                />
+                  style={{ zIndex: index + 1 }}
+                >
+                  <Image
+                    src={src}
+                    alt=""
+                    width={40}
+                    height={40}
+                    className={styles.avatarImage}
+                  />
+                </span>
               ))}
             </div>
             <p className={styles.proofText}>
-              {h.proofBefore} <strong>25,000+</strong> {h.proofAfter}
+              {h.proofBefore}{' '}
+              <strong className={styles.proofCount}>25,000+</strong>{' '}
+              {h.proofAfter}
             </p>
           </div>
         </div>

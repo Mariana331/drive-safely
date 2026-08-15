@@ -69,29 +69,34 @@
 }
 
 .uploadArt {
-  background: linear-gradient(135deg, #dbeafe, #eff6ff);
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1e40af, #2563eb);
   border-radius: var(--radius-card);
-  padding: var(--spacing-xl);
-  text-align: center;
+  padding: var(--spacing-xl) var(--spacing-xl) 72px;
+  text-align: left;
   min-height: 160px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.artCar {
-  font-size: 42px;
+  justify-content: flex-end;
 }
 
 .artMascot {
-  font-size: 28px;
+  position: absolute;
+  right: 8px;
+  bottom: -10px;
+  width: 100px;
+  height: auto;
+  filter: drop-shadow(0 8px 14px rgba(15, 23, 42, 0.25));
+  pointer-events: none;
 }
 
 .uploadArt p {
-  font-size: 13px;
-  color: var(--color-text-muted);
+  font-size: 15px;
+  font-weight: 800;
+  color: white;
+  max-width: 12rem;
+  line-height: 1.3;
 }
 
 .recentCard,
@@ -203,6 +208,22 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
+}
+
+.tipsWrap {
+  position: relative;
+  padding-right: 36px;
+}
+
+.tipsMascot {
+  position: absolute;
+  right: -8px;
+  bottom: 12px;
+  width: 110px;
+  height: auto;
+  pointer-events: none;
+  filter: drop-shadow(0 10px 18px rgba(37, 99, 235, 0.25));
+  z-index: 1;
 }
 
 .tipsList {

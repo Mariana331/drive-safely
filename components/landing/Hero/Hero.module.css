@@ -3,6 +3,9 @@
   overflow: hidden;
   background: #ffffff;
   min-height: 520px;
+  /* Tuck under the header curve so sky shows in the rounded corners */
+  margin-top: -36px;
+  padding-top: 36px;
 }
 
 .heroBg {
@@ -16,6 +19,34 @@
 .heroImage {
   object-fit: cover;
   object-position: right center;
+}
+
+.mascot {
+  position: absolute;
+  z-index: 1;
+  /* Upper area of the illustration, above the car (left of traffic light) */
+  right: 22%;
+  top: 8%;
+  width: clamp(88px, 12vw, 140px);
+  pointer-events: none;
+  filter: drop-shadow(0 12px 24px rgba(37, 99, 235, 0.25));
+  animation: mascotFloat 4.5s ease-in-out infinite;
+}
+
+.mascotImage {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+@keyframes mascotFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 .wave {
@@ -96,33 +127,56 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--spacing-sm);
+  gap: 12px;
 }
 
 .avatars {
   display: flex;
+  align-items: center;
+  padding-right: 4px;
 }
 
 .avatar {
-  width: 32px;
-  height: 32px;
+  position: relative;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  border: 2px solid var(--color-white);
-  margin-left: -8px;
+  border: 2.5px solid #ffffff;
+  margin-left: -12px;
+  overflow: hidden;
+  background: #e2e8f0;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.12);
+  display: grid;
+  place-items: center;
 }
 
 .avatar:first-child {
   margin-left: 0;
 }
 
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .proofText {
   font-size: 14px;
+  line-height: 1.4;
   color: var(--color-text-muted);
+}
+
+.proofCount {
+  color: var(--color-text);
+  font-weight: 800;
 }
 
 @media screen and (min-width: 768px) {
   .hero {
     min-height: 580px;
+    margin-top: -56px;
+    padding-top: 56px;
   }
 
   .inner {
@@ -146,6 +200,12 @@
 }
 
 @media screen and (min-width: 1024px) {
+  .mascot {
+    right: 26%;
+    top: 10%;
+    width: clamp(120px, 11vw, 160px);
+  }
+
   .inner {
     justify-content: flex-start;
   }
@@ -163,12 +223,23 @@
   .socialProof {
     flex-direction: row;
     align-items: center;
+    gap: 14px;
+  }
+
+  .proofText {
+    font-size: 15px;
   }
 }
 
 @media screen and (min-width: 1440px) {
   .hero {
     min-height: 640px;
+  }
+
+  .mascot {
+    right: 28%;
+    top: 12%;
+    width: 168px;
   }
 
   .inner {
@@ -197,6 +268,12 @@
 
   .heroImage {
     object-position: 70% center;
+  }
+
+  .mascot {
+    right: 10%;
+    top: 2%;
+    width: 78px;
   }
 
   .inner {

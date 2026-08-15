@@ -11,6 +11,7 @@ import {
   THEME_BOOT_SCRIPT,
   THEME_COOKIE,
   normalizeTheme,
+  themeColorScheme,
   type Theme,
 } from '@/lib/theme/config';
 import './globals.css';
@@ -28,7 +29,8 @@ export async function generateMetadata(): Promise<Metadata> {
     title: dict.meta.title,
     description: dict.meta.description,
     icons: {
-      icon: '/favicon.svg',
+      icon: [{ url: '/favicon.ico', type: 'image/x-icon' }],
+      shortcut: '/favicon.ico',
     },
   };
 }
@@ -48,7 +50,7 @@ export default async function RootLayout({
       lang={locale}
       className={inter.variable}
       data-theme={theme}
-      style={{ colorScheme: theme }}
+      style={{ colorScheme: themeColorScheme(theme) }}
       suppressHydrationWarning
     >
       <body>

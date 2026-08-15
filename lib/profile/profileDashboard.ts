@@ -1,5 +1,6 @@
-import type { User, UserAchievement, UserSkill } from '@/lib/api/api';
+import type { User, UserAchievement, UserActivity, UserSkill } from '@/lib/api/api';
 import type { UserProgress } from '@/lib/progress/computeUserProgress';
+import { listAnalysisSessions } from '@/lib/analysis/analysisSession';
 import { getDriverLevel } from '@/lib/profile/driverLevels';
 
 export const PROFILE_BANNER = '/images/profile/profile.png';
@@ -33,6 +34,27 @@ export const DEFAULT_ACHIEVEMENTS: UserAchievement[] = [
   { id: 'careful-driver', title: 'Careful Driver', unlocked: false },
   { id: 'road-expert', title: 'Road Expert', unlocked: false },
 ];
+
+const SKILL_NAME_ALIASES: Record<string, string> = {
+  signs: 'Traffic Signs',
+  'Road Signs': 'Traffic Signs',
+  'Traffic Signs': 'Traffic Signs',
+  parking: 'Parking',
+  Parking: 'Parking',
+  'Parking Rules': 'Parking',
+  pedestrians: 'Pedestrians',
+  Pedestrians: 'Pedestrians',
+  priority: 'Overtaking',
+  'Priority Rules': 'Overtaking',
+  Overtaking: 'Overtaking',
+  maneuvers: 'Overtaking',
+  Maneuvers: 'Overtaking',
+  speed: 'Speed Control',
+  'Speed & Distance': 'Speed Control',
+  'Speed Control': 'Speed Control',
+  lights: 'Traffic Signs',
+  'Traffic Lights': 'Traffic Signs',
+};
 
 export function skillTone(percent: number): 'good' | 'warn' | 'bad' {
   if (percent >= 85) return 'good';
@@ -121,45 +143,173 @@ export function activityIcon(type: string) {
   }
 }
 
+function unlockFromProgress(
+  id: string,
+  progress: UserProgress,
+  videosAnalyzed: number,
+): boolean {
+  switch (id) {
+    case 'first-analysis':
+      return videosAnalyzed > 0;
+    case 'rule-master':
+      return progress.rulesStudied >= 5;
+    case 'test-champion':
+      return progress.bestScore >= 80 || progress.testsPassed >= 1;
+    case 'safe-streak':
+      return progress.streak >= 3;
+    case 'careful-driver':
+      return progress.safetyScore >= 40;
+    case 'road-expert':
+      return progress.safetyScore >= 80;
+    case 'ai-explorer':
+      return videosAnalyzed >= 3;
+    default:
+      return false;
+  }
+}
+
+function mergeSkills(user: User, progress: UserProgress): UserSkill[] {
+  const byName = new Map<string, number>();
+
+  for (const skill of DEFAULT_SKILLS) {
+    byName.set(skill.name, 0);
+  }
+
+  for (const skill of user.skills ?? []) {
+    const name = SKILL_NAME_ALIASES[skill.name] ?? skill.name;
+    byName.set(name, Math.max(byName.get(name) ?? 0, skill.percent));
+  }
+
+  for (const item of progress.testsStats.categoryPerformance) {
+    const name = SKILL_NAME_ALIASES[item.name] ?? item.name;
+    byName.set(name, Math.max(byName.get(name) ?? 0, item.percent));
+  }
+
+  return DEFAULT_SKILLS.map((skill) => ({
+    name: skill.name,
+    percent: byName.get(skill.name) ?? 0,
+  }));
+}
+
+function mergeAchievements(
+  user: User,
+  progress: UserProgress,
+  videosAnalyzed: number,
+): UserAchievement[] {
+  const base =
+    user.achievements && user.achievements.length > 0
+      ? user.achievements
+      : DEFAULT_ACHIEVEMENTS;
+
+  const seen = new Set(base.map((item) => item.id));
+  const merged = base.map((item) => ({
+    ...item,
+    unlocked:
+      item.unlocked ||
+      unlockFromProgress(item.id, progress, videosAnalyzed),
+  }));
+
+  for (const fallback of DEFAULT_ACHIEVEMENTS) {
+    if (seen.has(fallback.id)) continue;
+    merged.push({
+      ...fallback,
+      unlocked: unlockFromProgress(fallback.id, progress, videosAnalyzed),
+    });
+  }
+
+  return merged;
+}
+
+function buildLocalActivity(progress: UserProgress): UserActivity[] {
+  const items: UserActivity[] = [];
+
+  for (const analysis of listAnalysisSessions().filter(
+    (s) => s.status === 'analyzed',
+  )) {
+    items.push({
+      type: 'video',
+      text: `Analyzed a video: ${analysis.title}`,
+      createdAt: analysis.createdAt,
+    });
+  }
+
+  for (const test of progress.recentTests) {
+    items.push({
+      type: 'test',
+      text: `Completed ${test.title} (${test.score}%)`,
+      createdAt: test.completedAt,
+    });
+  }
+
+  if (progress.rulesStudied > 0) {
+    items.push({
+      type: 'rules',
+      text: `Saved ${progress.rulesStudied} traffic rule(s)`,
+      createdAt: new Date().toISOString(),
+    });
+  }
+
+  return items;
+}
+
+function mergeActivity(
+  user: User,
+  progress: UserProgress,
+): UserActivity[] {
+  const local = buildLocalActivity(progress);
+  const remote = (user.activity ?? []).map((item) => ({
+    ...item,
+    createdAt:
+      typeof item.createdAt === 'string'
+        ? item.createdAt
+        : new Date(item.createdAt).toISOString(),
+  }));
+
+  const combined = [...local, ...remote].sort((a, b) =>
+    b.createdAt.localeCompare(a.createdAt),
+  );
+
+  // Dedupe similar texts on the same day
+  const seen = new Set<string>();
+  const unique: UserActivity[] = [];
+  for (const item of combined) {
+    const key = `${item.type}:${item.text}:${item.createdAt.slice(0, 10)}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    unique.push(item);
+  }
+
+  return unique.slice(0, 8);
+}
+
 /** Merge API profile fields with local learning progress. */
 export function resolveProfileMetrics(user: User, progress: UserProgress) {
-  const level = getDriverLevel(progress.safetyScore || user.safetyScore || 50);
+  const videosAnalyzed = Math.max(
+    user.stats?.videosAnalyzed ?? 0,
+    progress.videosAnalyzed,
+  );
+
+  const level = getDriverLevel(
+    Math.max(progress.safetyScore, user.safetyScore || 0) || 50,
+  );
   const levelIndex = Math.max(
     0,
     ['beginner', 'careful', 'safe', 'expert', 'champion'].indexOf(level.id),
   );
-  const xp = user.xp ?? progress.safetyScore * 15;
+  const xp = Math.max(user.xp ?? 0, progress.safetyScore * 15 + videosAnalyzed * 40);
   const { currentFloor, nextGoal } = xpForLevel(levelIndex);
 
-  const skills =
-    user.skills && user.skills.length > 0
-      ? user.skills
-      : progress.testsStats.categoryPerformance.map((item) => ({
-          name: item.name,
-          percent: item.percent,
-        }));
-
-  const achievements =
-    user.achievements && user.achievements.length > 0
-      ? user.achievements
-      : DEFAULT_ACHIEVEMENTS.map((item) => ({
-          ...item,
-          unlocked:
-            (item.id === 'first-analysis' && progress.videosAnalyzed > 0) ||
-            (item.id === 'rule-master' && progress.rulesStudied >= 5) ||
-            (item.id === 'test-champion' && progress.bestScore >= 80) ||
-            (item.id === 'safe-streak' && progress.streak >= 3) ||
-            (item.id === 'careful-driver' && progress.safetyScore >= 40),
-        }));
-
+  const skills = mergeSkills(user, progress);
+  const achievements = mergeAchievements(user, progress, videosAnalyzed);
   const unlocked = achievements.filter((a) => a.unlocked).length;
+  const activity = mergeActivity(user, progress);
 
   const stats = {
-    videosAnalyzed: Math.max(
-      user.stats?.videosAnalyzed ?? 0,
-      progress.videosAnalyzed,
+    videosAnalyzed,
+    videosMonthly: Math.max(
+      user.stats?.videosAnalyzedMonthly ?? 0,
+      Math.min(videosAnalyzed, 5),
     ),
-    videosMonthly: user.stats?.videosAnalyzedMonthly ?? 0,
     rulesLearned: Math.max(
       user.stats?.rulesLearned ?? 0,
       progress.rulesStudied,
@@ -173,27 +323,13 @@ export function resolveProfileMetrics(user: User, progress: UserProgress) {
     aiQuestions: user.stats?.aiQuestions ?? 0,
     aiMonthly: user.stats?.aiQuestionsMonthly ?? 0,
     achievements: Math.max(user.stats?.achievementsCount ?? 0, unlocked),
-    achievementsNew: user.stats?.achievementsNew ?? 0,
+    achievementsNew: Math.max(user.stats?.achievementsNew ?? 0, unlocked > 0 ? 1 : 0),
   };
 
   const safetyScore = Math.max(user.safetyScore || 0, progress.safetyScore);
-  const streakCurrent = Math.max(
-    user.streak?.current ?? 0,
-    progress.streak,
-  );
+  const streakCurrent = Math.max(user.streak?.current ?? 0, progress.streak);
 
-  const activity =
-    user.activity && user.activity.length > 0
-      ? user.activity
-      : progress.recentTests.slice(0, 4).map((test) => ({
-          type: 'test',
-          text: `Completed ${test.title}`,
-          createdAt: test.completedAt,
-        }));
-
-  const weakest = [...(skills.length ? skills : DEFAULT_SKILLS)].sort(
-    (a, b) => a.percent - b.percent,
-  )[0];
+  const weakest = [...skills].sort((a, b) => a.percent - b.percent)[0];
 
   return {
     level,
@@ -201,10 +337,10 @@ export function resolveProfileMetrics(user: User, progress: UserProgress) {
     xp,
     currentFloor,
     nextGoal,
-    skills: skills.length ? skills : DEFAULT_SKILLS,
+    skills,
     achievements,
     unlocked,
-    totalAchievements: Math.max(achievements.length, 30),
+    totalAchievements: Math.max(achievements.length, 6),
     stats,
     safetyScore,
     streakCurrent,

@@ -58,6 +58,6 @@ export const config = {
     /*
      * Skip API routes (auth proxy), Next internals, and static assets.
      */
-    '/((?!api|_next/static|_next/image|favicon.svg|images|.*\\..*).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|images|.*\\..*).*)',
   ],
 };

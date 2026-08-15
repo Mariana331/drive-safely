@@ -1,11 +1,11 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
-import Tag from '@/components/ui/Tag/Tag';
 import type { NewsArticle } from '@/lib/api/api';
 import { OFFICIAL_LAWS_NEWS } from '@/lib/news/officialLaws';
 import { useLocale, useDictionary } from '@/lib/i18n/LocaleProvider';
+import NewsImage from '@/components/dashboard/news/NewsImage';
+import Tag from '@/components/ui/Tag/Tag';
 import styles from './NewsSection.module.css';
 
 function NewsThumbnail({ article }: { article: NewsArticle }) {
@@ -14,9 +14,8 @@ function NewsThumbnail({ article }: { article: NewsArticle }) {
   if (article.imageUrl) {
     return (
       <div className={styles.thumbnail}>
-        <Image
+        <NewsImage
           src={article.imageUrl}
-          alt=""
           fill
           className={styles.thumbnailImage}
           sizes="(max-width: 767px) 100vw, 33vw"

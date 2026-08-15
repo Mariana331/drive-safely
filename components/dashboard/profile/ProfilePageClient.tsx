@@ -34,13 +34,14 @@ export default function ProfilePageClient() {
   const dict = useDictionary();
   const { locale } = useLocale();
   const t = dict.profile;
-  const { progress, ready } = useUserProgress();
+  const { progress, ready, refresh } = useUserProgress();
   const { items: favorites } = useFavorites();
   const [prefs, setPrefs] = useState<ProfilePrefs | null>(null);
 
   useEffect(() => {
     setPrefs(loadProfilePrefs());
-  }, [user?._id]);
+    refresh();
+  }, [user?._id, refresh]);
 
   if (loading || !ready) {
     return (
@@ -135,6 +136,17 @@ export default function ProfilePageClient() {
               priority
             />
             <div className={styles.heroOverlay} />
+          </div>
+
+          <div className={styles.mascot} aria-hidden="true">
+            <Image
+              src="/images/smarter/smarter.png"
+              alt=""
+              width={180}
+              height={200}
+              className={styles.mascotImage}
+              priority
+            />
           </div>
 
           <div className={styles.heroBody}>
@@ -421,6 +433,13 @@ export default function ProfilePageClient() {
               <Link href="/assistant" className={styles.helpLink}>
                 {t.helpCta}
               </Link>
+              <Image
+                src="/images/smarter/minismarter.png"
+                alt=""
+                width={88}
+                height={96}
+                className={styles.helpMascot}
+              />
             </section>
           </aside>
         </div>

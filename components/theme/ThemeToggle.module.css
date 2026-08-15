@@ -9,36 +9,39 @@
   border-top: 1px solid var(--color-border);
 }
 
-.toggle {
-  width: 42px;
-  height: 24px;
+.sidebarLabel {
+  font-weight: 600;
+}
+
+.swatches {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.swatch {
+  width: 22px;
+  height: 22px;
   border-radius: 999px;
-  background: var(--color-border);
-  position: relative;
-  flex-shrink: 0;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 1px var(--color-border);
   padding: 0;
-  opacity: 1;
   cursor: pointer;
+  opacity: 1;
 }
 
-.toggleOn {
-  background: var(--color-primary);
+.swatchActive {
+  box-shadow:
+    0 0 0 2px var(--color-white),
+    0 0 0 4px var(--color-primary);
 }
 
-.knob {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #ffffff;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.25);
-  transition: transform 0.2s ease;
-}
-
-.toggleOn .knob {
-  transform: translateX(18px);
+.swatchDot {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  flex-shrink: 0;
 }
 
 .headerBtn,
@@ -66,10 +69,4 @@
 .compactBtn:hover {
   border-color: var(--color-primary);
   color: var(--color-primary);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .knob {
-    transition: none;
-  }
 }

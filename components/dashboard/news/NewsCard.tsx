@@ -1,12 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import type { NewsArticle } from '@/lib/api/api';
 import { formatNewsDate } from '@/lib/news/newsData';
 import { useDictionary } from '@/lib/i18n/LocaleProvider';
 import { useFavorites, useIsFavorite } from '@/lib/favorites/useFavorites';
 import NewsCategoryBadge from './NewsCategoryBadge';
+import NewsImage from './NewsImage';
 import styles from './NewsCard.module.css';
 
 interface NewsCardProps {
@@ -36,9 +36,8 @@ export default function NewsCard({ article }: NewsCardProps) {
     <article className={styles.card}>
       <Link href={`/news/${article.slug}`} className={styles.imageWrap}>
         {article.imageUrl ? (
-          <Image
+          <NewsImage
             src={article.imageUrl}
-            alt=""
             fill
             className={styles.image}
             sizes="(max-width: 768px) 100vw, 400px"

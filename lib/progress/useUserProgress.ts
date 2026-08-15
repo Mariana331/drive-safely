@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useAuth } from '@/lib/auth/AuthProvider';
 import { setProgressUserId } from '@/lib/progress/progressUser';
 import {
@@ -15,17 +15,25 @@ export function useUserProgress() {
   const [progress, setProgress] = useState<UserProgress>(emptyUserProgress);
   const [ready, setReady] = useState(false);
 
+  const refresh = useCallback(() => {
+    setProgress(computeUserProgress());
+  }, []);
+
   useEffect(() => {
     setProgressUserId(user?._id ?? null);
-    setProgress(computeUserProgress());
+    refresh();
     setReady(true);
 
-    const onFocus = () => setProgress(computeUserProgress());
-    window.addEventListener('focus', onFocus);
-    return () => window.removeEventListener('focus', onFocus);
-  }, [user?._id]);
-
-  const refresh = () => setProgress(computeUserProgress());
+    const refreshNow = () => refresh();
+    window.addEventListener('focus', refreshNow);
+    window.addEventListener('drivesafely:progress-updated', refreshNow);
+    document.addEventListener('visibilitychange', refreshNow);
+    return () => {
+      window.removeEventListener('focus', refreshNow);
+      window.removeEventListener('drivesafely:progress-updated', refreshNow);
+      document.removeEventListener('visibilitychange', refreshNow);
+    };
+  }, [user?._id, refresh]);
 
   return {
     progress,
@@ -33,4 +41,9 @@ export function useUserProgress() {
     ready: ready && !authLoading,
     userId: user?._id ?? null,
   };
+}
+
+export function notifyProgressUpdated() {
+  if (typeof window === 'undefined') return;
+  window.dispatchEvent(new Event('drivesafely:progress-updated'));
 }

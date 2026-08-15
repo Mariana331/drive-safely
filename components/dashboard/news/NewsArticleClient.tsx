@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import type { NewsArticle } from '@/lib/api/api';
 import { formatNewsDate } from '@/lib/news/newsData';
@@ -13,6 +12,7 @@ import DashboardFooter from '@/components/dashboard/DashboardFooter/DashboardFoo
 import { useDictionary } from '@/lib/i18n/LocaleProvider';
 import { useFavorites, useIsFavorite } from '@/lib/favorites/useFavorites';
 import NewsCategoryBadge from './NewsCategoryBadge';
+import NewsImage from './NewsImage';
 import LearningJourney from './LearningJourney';
 import styles from './NewsArticle.module.css';
 
@@ -105,9 +105,8 @@ export default function NewsArticleClient({ article }: NewsArticleClientProps) {
 
           {article.imageUrl ? (
             <div className={styles.heroImage}>
-              <Image
+              <NewsImage
                 src={article.imageUrl}
-                alt=""
                 fill
                 className={styles.image}
                 sizes="(max-width: 900px) 100vw, 800px"

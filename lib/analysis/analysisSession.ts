@@ -105,6 +105,9 @@ export function completeAnalysisSession(id: string): AnalysisSession | null {
   session.progress = 100;
   session.result = buildDemoResult(id, session.title);
   saveAnalysisSession(session);
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new Event('drivesafely:progress-updated'));
+  }
   return session;
 }
 

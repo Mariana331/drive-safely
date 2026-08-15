@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import DashboardHeader from '@/components/dashboard/DashboardHeader/DashboardHeader';
 import { PROCESSING_STEPS, buildDemoResult } from '@/lib/analysis/analysisData';
 import {
@@ -63,6 +64,7 @@ export default function ProcessingPageClient() {
             result: buildDemoResult(session.id, session.title),
           };
           saveAnalysisSession(demoSession);
+          window.dispatchEvent(new Event('drivesafely:progress-updated'));
           router.push(`/ai-analysis/results/${session.id}`);
           return;
         }
@@ -167,12 +169,22 @@ export default function ProcessingPageClient() {
               })}
             </ul>
 
-            <div className={styles.tip}>
-              <strong>Safety tip</strong>
-              <p>
-                Keep both hands on the wheel and scan intersections early — AI
-                feedback works best when the road ahead is clearly visible.
-              </p>
+            <div className={styles.funFact}>
+              <div className={styles.funFactIcon}>💡</div>
+              <div className={styles.funFactBody}>
+                <strong>Fun fact</strong>
+                <p>
+                  Keep both hands on the wheel and scan intersections early — AI
+                  feedback works best when the road ahead is clearly visible.
+                </p>
+              </div>
+              <Image
+                src="/images/smarter/smarter.png"
+                alt=""
+                width={96}
+                height={104}
+                className={styles.funFactMascot}
+              />
             </div>
           </section>
         </div>

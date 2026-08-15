@@ -18,8 +18,8 @@ export default function PrivacyPage() {
           Your data is stored securely and is not sold to third parties. You can
           request account deletion by contacting support.
         </p>
-        <Link href="/signup" className={styles.back}>
-          ← Back to sign up
+        <Link href="/" className={styles.back}>
+          ← Back to home
         </Link>
       </div>
     </div>

@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   answerQuestion,
   getTestSession,
@@ -83,6 +84,7 @@ export default function TestTakeClient() {
   }
 
   const selected = session.answers[question.id];
+  const isCorrect = selected !== null && selected === question.correctIndex;
   const progress = Math.round(((index + 1) / session.questions.length) * 100);
 
   const onSelect = (answerIndex: number) => {
@@ -145,22 +147,60 @@ export default function TestTakeClient() {
       <div className={styles.card}>
         <p className={styles.question}>{question.text}</p>
         <div className={styles.options}>
-          {question.options.map((option, optionIndex) => (
-            <button
-              key={option}
-              type="button"
-              className={`${styles.option} ${
-                selected === optionIndex ? styles.optionSelected : ''
-              }`}
-              onClick={() => onSelect(optionIndex)}
-            >
-              <span className={styles.optionLetter}>
-                {String.fromCharCode(65 + optionIndex)}
-              </span>
-              <span>{option}</span>
-            </button>
-          ))}
+          {question.options.map((option, optionIndex) => {
+            const showReveal = selected !== null;
+            const isRight = optionIndex === question.correctIndex;
+            const isChosen = selected === optionIndex;
+            return (
+              <button
+                key={option}
+                type="button"
+                className={`${styles.option} ${
+                  isChosen ? styles.optionSelected : ''
+                } ${
+                  showReveal && isRight
+                    ? styles.optionCorrect
+                    : showReveal && isChosen && !isRight
+                      ? styles.optionWrong
+                      : ''
+                }`}
+                onClick={() => onSelect(optionIndex)}
+              >
+                <span className={styles.optionLetter}>
+                  {String.fromCharCode(65 + optionIndex)}
+                </span>
+                <span>{option}</span>
+              </button>
+            );
+          })}
         </div>
+
+        {selected !== null && (
+          <div
+            className={`${styles.feedback} ${
+              isCorrect ? styles.feedbackCorrect : styles.feedbackWrong
+            }`}
+          >
+            <div className={styles.feedbackBody}>
+              <strong>{isCorrect ? 'Correct!' : 'Not quite'}</strong>
+              <p>
+                {isCorrect
+                  ? question.explanation ||
+                    'Nice work — that matches the traffic rule.'
+                  : `Right answer: ${question.options[question.correctIndex]}${
+                      question.explanation ? ` — ${question.explanation}` : ''
+                    }`}
+              </p>
+            </div>
+            <Image
+              src="/images/smarter/minismarter.png"
+              alt=""
+              width={88}
+              height={96}
+              className={styles.feedbackMascot}
+            />
+          </div>
+        )}
 
         <div className={styles.nav}>
           <button

@@ -146,6 +146,9 @@ export function submitTestSession(sessionId: string): TestSession | null {
   session.score = score;
   session.completedAt = new Date().toISOString();
   saveTestSession(session);
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new Event('drivesafely:progress-updated'));
+  }
   return session;
 }
 

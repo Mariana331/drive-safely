@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import type { NewsArticle } from '@/lib/api/api';
 import {
@@ -10,6 +9,7 @@ import {
   formatNewsDateShort,
   NEWS_FILTERS,
 } from '@/lib/news/newsData';
+import NewsImage from './NewsImage';
 import styles from './NewsSidebar.module.css';
 
 interface NewsSidebarProps {
@@ -57,9 +57,8 @@ export default function NewsSidebar({
               <Link href={`/news/${story.slug}`} className={styles.storyLink}>
                 <div className={styles.storyThumb}>
                   {story.imageUrl ? (
-                    <Image
+                    <NewsImage
                       src={story.imageUrl}
-                      alt=""
                       fill
                       className={styles.storyImage}
                       sizes="56px"

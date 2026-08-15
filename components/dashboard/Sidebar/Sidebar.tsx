@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { ShieldIcon } from '@/components/icons';
 import LanguageSwitcher from '@/components/i18n/LanguageSwitcher';
@@ -17,8 +18,7 @@ export default function Sidebar() {
 
   const navItems = [
     { label: s.dashboard, href: '/profile', icon: '🏠' },
-    { label: s.uploadVideo, href: '/ai-analysis', icon: '🎥' },
-    { label: s.aiAnalysis, href: '/ai-analysis', icon: '🤖' },
+    { label: s.aiAnalysis, href: '/ai-analysis', icon: '🎥' },
     { label: s.trafficRules, href: '/traffic-rules', icon: '📋' },
     { label: s.practiceTests, href: '/tests', icon: '✅' },
     { label: s.aiAssistant, href: '/assistant', icon: '💬' },
@@ -81,6 +81,17 @@ export default function Sidebar() {
         </div>
 
         <ThemeToggle variant="sidebar" />
+
+        <div className={styles.driveBetter}>
+          <p className={styles.driveBetterText}>{s.driveBetter}</p>
+          <Image
+            src="/images/smarter/minismarter.png"
+            alt=""
+            width={96}
+            height={104}
+            className={styles.driveBetterMascot}
+          />
+        </div>
       </aside>
     </>
   );

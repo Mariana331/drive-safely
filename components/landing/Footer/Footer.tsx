@@ -66,10 +66,26 @@ export default function Footer() {
   ];
 
   const socialLinks = [
-    { label: 'Twitter', href: '#', icon: <TwitterIcon /> },
-    { label: 'Facebook', href: '#', icon: <FacebookIcon /> },
-    { label: 'Instagram', href: '#', icon: <InstagramIcon /> },
-    { label: 'YouTube', href: '#', icon: <YoutubeIcon /> },
+    {
+      label: 'Twitter',
+      href: 'https://twitter.com/intent/tweet?text=DriveSafely%20—%20Drive%20smarter.%20Stay%20safer.',
+      icon: <TwitterIcon />,
+    },
+    {
+      label: 'Facebook',
+      href: 'https://www.facebook.com/sharer/sharer.php?u=https://drivesafely.app',
+      icon: <FacebookIcon />,
+    },
+    {
+      label: 'Instagram',
+      href: 'https://www.instagram.com/',
+      icon: <InstagramIcon />,
+    },
+    {
+      label: 'YouTube',
+      href: 'https://www.youtube.com/results?search_query=road+safety',
+      icon: <YoutubeIcon />,
+    },
   ];
 
   return (
@@ -103,6 +119,8 @@ export default function Footer() {
                   href={social.href}
                   className={styles.socialLink}
                   aria-label={social.label}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   {social.icon}
                 </a>

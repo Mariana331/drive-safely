@@ -342,7 +342,7 @@ export default function AssistantPageClient() {
                     handleSend();
                   }
                 }}
-                placeholder="Хто має перевагу на цьому перехресті?"
+                placeholder="Напишіть питання про ПДР…"
                 aria-label="Message"
               />
               <button

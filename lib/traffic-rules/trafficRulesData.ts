@@ -306,4 +306,7 @@ export function loadSavedRuleIds(): string[] {
 
 export function persistSavedRuleIds(ids: string[]) {
   writeUserJson(SAVED_STORAGE_KEY, ids);
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new Event('drivesafely:progress-updated'));
+  }
 }
