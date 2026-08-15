@@ -50,7 +50,6 @@ drive-safely-node.js/         # Backend API
 ```bash
 cd "../drive-safely-node.js"
 npm install
-# створіть .env (див. нижче)
 npm run seed          # опційно: новини
 npm run seed:user     # опційно: демо-користувач
 npm run dev           # http://localhost:3002
