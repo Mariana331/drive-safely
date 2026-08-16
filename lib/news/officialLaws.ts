@@ -140,7 +140,7 @@ This article does not replace the legal text. Open the official source, then:
 - ask the AI Assistant if a scenario is unclear.`,
     category: 'Traffic Laws',
     imageUrl:
-      'https://images.unsplash.com/photo-1506521781263-d8422e94f995?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&q=80',
     readTimeMinutes: 4,
     country: 'Ukraine',
     publishedAt: '2026-04-10T00:00:00.000Z',

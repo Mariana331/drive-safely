@@ -84,11 +84,7 @@ export default function Hero() {
                 </span>
               ))}
             </div>
-            <p className={styles.proofText}>
-              {h.proofBefore}{' '}
-              <strong className={styles.proofCount}>25,000+</strong>{' '}
-              {h.proofAfter}
-            </p>
+            <p className={styles.proofText}>{h.proofText}</p>
           </div>
         </div>
       </div>

@@ -144,7 +144,7 @@ export const TRAFFIC_RULES: TrafficRule[] = [
     category: 'priority',
     priority: 'high',
     imageUrl:
-      'https://images.unsplash.com/photo-1506521781263-d8422e94f995?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&q=80',
     tip: 'Pedestrians always have priority at crosswalks.',
     featured: true,
   },
@@ -157,7 +157,7 @@ export const TRAFFIC_RULES: TrafficRule[] = [
     category: 'speed',
     priority: 'high',
     imageUrl:
-      'https://images.unsplash.com/photo-1489824904134-891ab84532f1?auto=format&fit=crop&w=400&q=80',
+      'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=400&q=80',
   },
   {
     id: 'r-8-3',
@@ -201,7 +201,7 @@ export const TRAFFIC_RULES: TrafficRule[] = [
     category: 'lights',
     priority: 'high',
     imageUrl:
-      'https://images.unsplash.com/photo-1519003729264-11996aac4f41?auto=format&fit=crop&w=400&q=80',
+      'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=400&q=80',
   },
   {
     id: 'r-14-1',
@@ -246,7 +246,7 @@ export const TRAFFIC_RULES: TrafficRule[] = [
     priority: 'high',
     tip: 'Look for priority signs first, then traffic lights, then the right-hand rule.',
     imageUrl:
-      'https://images.unsplash.com/photo-1506521781263-d8422e94f995?auto=format&fit=crop&w=400&q=80',
+      'https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=400&q=80',
   },
   {
     id: 'r-15-9',
@@ -257,7 +257,7 @@ export const TRAFFIC_RULES: TrafficRule[] = [
     category: 'parking',
     priority: 'low',
     imageUrl:
-      'https://images.unsplash.com/photo-1511919886586-b716af265bd8?auto=format&fit=crop&w=400&q=80',
+      'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=400&q=80',
   },
   {
     id: 'r-9-5',
@@ -268,7 +268,7 @@ export const TRAFFIC_RULES: TrafficRule[] = [
     category: 'lights',
     priority: 'medium',
     imageUrl:
-      'https://images.unsplash.com/photo-1558981403-c5f9899a5762?auto=format&fit=crop&w=400&q=80',
+      'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=400&q=80',
   },
 ];
 

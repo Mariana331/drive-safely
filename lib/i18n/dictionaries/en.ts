@@ -43,8 +43,7 @@ export const en = {
       'Upload a road video and get AI analysis, learn the rules and become a better driver every day.',
     uploadVideo: 'Upload Video',
     learnMore: 'Learn More',
-    proofBefore: 'Join',
-    proofAfter: 'drivers making roads safer.',
+    proofText: 'Built for safer driving',
     imageAlt: 'Car driving on a scenic mountain road',
   },
   features: {

@@ -22,14 +22,14 @@ const CATEGORY_FALLBACK_IMAGES: Record<NewsCategory, string[]> = {
     'https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&q=80',
   ],
   'Road Safety': [
-    'https://images.unsplash.com/photo-1519003729264-11996aac4f41?auto=format&fit=crop&w=800&q=80',
+    'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=800&q=80',
     'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80',
   ],
   'Traffic Laws': [
     'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=800&q=80',
   ],
   'AI & Automotive': [
-    'https://images.unsplash.com/photo-1593941707882-a5bba14938ce?auto=format&fit=crop&w=800&q=80',
+    'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80',
     'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=800&q=80',
     'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80',
   ],
@@ -37,10 +37,10 @@ const CATEGORY_FALLBACK_IMAGES: Record<NewsCategory, string[]> = {
     'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=800&q=80',
   ],
   Update: [
-    'https://images.unsplash.com/photo-1506521781263-d8422e94f995?auto=format&fit=crop&w=800&q=80',
+    'https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&q=80',
   ],
   Reminder: [
-    'https://images.unsplash.com/photo-1519003729264-11996aac4f41?auto=format&fit=crop&w=800&q=80',
+    'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=800&q=80',
   ],
 };
 

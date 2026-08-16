@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
 
 interface NewsImageProps {
@@ -11,6 +12,9 @@ interface NewsImageProps {
   fill?: boolean;
   priority?: boolean;
 }
+
+const FALLBACK =
+  'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=800&q=80';
 
 function isTrustedOptimizerHost(src: string) {
   try {
@@ -30,15 +34,20 @@ export default function NewsImage({
   fill,
   priority,
 }: NewsImageProps) {
-  if (isTrustedOptimizerHost(src)) {
+  const [current, setCurrent] = useState(src);
+
+  if (isTrustedOptimizerHost(current)) {
     return (
       <Image
-        src={src}
+        src={current}
         alt={alt}
         fill={fill}
         className={className}
         sizes={sizes}
         priority={priority}
+        onError={() => {
+          if (current !== FALLBACK) setCurrent(FALLBACK);
+        }}
       />
     );
   }
@@ -47,12 +56,15 @@ export default function NewsImage({
     // External RSS hosts vary widely; native img avoids next/image allowlist gaps.
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={src}
+      src={current}
       alt={alt}
       className={className}
       loading={priority ? 'eager' : 'lazy'}
       decoding="async"
       referrerPolicy="no-referrer"
+      onError={() => {
+        if (current !== FALLBACK) setCurrent(FALLBACK);
+      }}
       style={
         fill
           ? {

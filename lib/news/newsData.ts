@@ -87,7 +87,7 @@ export const FALLBACK_NEWS: NewsArticle[] = [
       'Essential tips for maintaining control on wet roads, including proper following distance and braking techniques.',
     category: 'Road Safety',
     imageUrl:
-      'https://images.unsplash.com/photo-1519692933481-162789dd5129?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80',
     readTimeMinutes: 4,
     country: 'United Kingdom',
     publishedAt: '2024-05-14T00:00:00.000Z',
@@ -129,7 +129,7 @@ export const FALLBACK_NEWS: NewsArticle[] = [
       'Updated parking zones and time limits take effect next month. Here is what drivers need to know.',
     category: 'Traffic News',
     imageUrl:
-      'https://images.unsplash.com/photo-1506521781263-d8422e94f995?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&q=80',
     readTimeMinutes: 3,
     country: 'Germany',
     publishedAt: '2024-05-08T00:00:00.000Z',
@@ -143,7 +143,7 @@ export const FALLBACK_NEWS: NewsArticle[] = [
       'Prepare for icy roads with these essential winter driving techniques and vehicle preparation tips.',
     category: 'Road Safety',
     imageUrl:
-      'https://images.unsplash.com/photo-1516436775489-367f0cf0754a?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=800&q=80',
     readTimeMinutes: 4,
     country: 'Canada',
     publishedAt: '2024-05-06T00:00:00.000Z',
@@ -157,7 +157,7 @@ export const FALLBACK_NEWS: NewsArticle[] = [
       'Modern ADAS features help prevent accidents. Learn how lane departure warnings work and when to trust them.',
     category: 'AI & Automotive',
     imageUrl:
-      'https://images.unsplash.com/photo-1489824904134-891ab84532f1?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=800&q=80',
     readTimeMinutes: 5,
     country: 'United States',
     publishedAt: '2024-05-04T00:00:00.000Z',
@@ -185,7 +185,7 @@ export const FALLBACK_NEWS: NewsArticle[] = [
       'National campaign raises awareness about yielding to pedestrians at marked and unmarked crosswalks.',
     category: 'Road Safety',
     imageUrl:
-      'https://images.unsplash.com/photo-1519003729264-11996aac4f41?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=800&q=80',
     readTimeMinutes: 3,
     country: 'France',
     publishedAt: '2024-04-30T00:00:00.000Z',
@@ -199,7 +199,7 @@ export const FALLBACK_NEWS: NewsArticle[] = [
       'New regulations clarify who can use EV charging lanes and penalties for misuse by non-electric vehicles.',
     category: 'Traffic Laws',
     imageUrl:
-      'https://images.unsplash.com/photo-1593941707882-a5bba14938ce?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80',
     readTimeMinutes: 4,
     country: 'Germany',
     publishedAt: '2024-04-28T00:00:00.000Z',
@@ -269,7 +269,7 @@ export const FALLBACK_NEWS: NewsArticle[] = [
       'Latest data shows phone use remains the leading cause of distracted driving incidents nationwide.',
     category: 'Traffic News',
     imageUrl:
-      'https://images.unsplash.com/photo-1511919886586-b716af265bd8?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80',
     readTimeMinutes: 4,
     country: 'United States',
     publishedAt: '2024-04-18T00:00:00.000Z',
@@ -297,7 +297,7 @@ export const FALLBACK_NEWS: NewsArticle[] = [
       'Avoid the most common roundabout errors including wrong lane choice and failure to yield.',
     category: 'Traffic Laws',
     imageUrl:
-      'https://images.unsplash.com/photo-1506521781263-d8422e94f995?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&q=80',
     readTimeMinutes: 4,
     country: 'Germany',
     publishedAt: '2024-04-14T00:00:00.000Z',
@@ -311,7 +311,7 @@ export const FALLBACK_NEWS: NewsArticle[] = [
       'AI-powered traffic lights adapt to real-time traffic flow, reducing wait times and emissions.',
     category: 'AI & Automotive',
     imageUrl:
-      'https://images.unsplash.com/photo-1519003729264-11996aac4f41?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=800&q=80',
     readTimeMinutes: 5,
     country: 'France',
     publishedAt: '2024-04-12T00:00:00.000Z',
@@ -325,7 +325,7 @@ export const FALLBACK_NEWS: NewsArticle[] = [
       'Drivers and riders share responsibility on the road. Key tips for safely sharing lanes with motorcycles.',
     category: 'Road Safety',
     imageUrl:
-      'https://images.unsplash.com/photo-1558981403-c5f9899a5762?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80',
     readTimeMinutes: 3,
     country: 'United States',
     publishedAt: '2024-04-10T00:00:00.000Z',
@@ -353,7 +353,7 @@ export const FALLBACK_NEWS: NewsArticle[] = [
       'Navigate construction zones safely with reduced speeds, lane changes, and worker awareness tips.',
     category: 'Traffic News',
     imageUrl:
-      'https://images.unsplash.com/photo-1581092160562-40aa08f7881a?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=800&q=80',
     readTimeMinutes: 4,
     country: 'Canada',
     publishedAt: '2024-04-06T00:00:00.000Z',
