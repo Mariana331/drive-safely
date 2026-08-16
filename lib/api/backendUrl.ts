@@ -1,4 +1,4 @@
-const RENDER_BACKEND = 'https://drive-safely-node-js.onrender.com';
+const RENDER_BACKEND = 'https://drive-safely-node-js-1.onrender.com';
 
 /** Shared backend base URL for Next.js server-side proxies. */
 export function getBackendBaseUrl(): string {

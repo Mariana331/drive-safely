@@ -159,7 +159,7 @@ export function getApiBaseUrl(): string {
 
   if (fromEnv) return fromEnv.replace(/\/$/, '');
 
-  return 'https://drive-safely-node-js.onrender.com';
+  return 'https://drive-safely-node-js-1.onrender.com';
 }
 
 export class ApiError extends Error {
