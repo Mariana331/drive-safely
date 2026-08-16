@@ -30,7 +30,7 @@ export default function DashboardHeader({
   title,
   subtitle,
 }: DashboardHeaderProps) {
-  const { user, logout } = useAuth();
+  const { user, loading, logout } = useAuth();
   const dict = useDictionary();
   const [prefs, setPrefs] = useState<ProfilePrefs | null>(null);
   const [open, setOpen] = useState(false);
@@ -38,6 +38,12 @@ export default function DashboardHeader({
   const [readIds, setReadIds] = useState<string[]>([]);
 
   useEffect(() => {
+    if (!user) {
+      setPrefs(null);
+      setNotifications([]);
+      setReadIds([]);
+      return;
+    }
     const refresh = () => {
       setPrefs(loadProfilePrefs());
       setNotifications(buildNotifications());
@@ -71,7 +77,7 @@ export default function DashboardHeader({
 
   const displayName = user
     ? resolveDisplayName(user.fullName, prefs)
-    : dict.common.user;
+    : '';
   const initials =
     displayName
       .split(' ')
@@ -79,7 +85,9 @@ export default function DashboardHeader({
       .join('')
       .slice(0, 2)
       .toUpperCase() || '?';
-  const avatarSrc = prefs?.avatarDataUrl || user?.avatarUrl || '';
+  const avatarSrc = user
+    ? prefs?.avatarDataUrl || user.avatarUrl || ''
+    : '';
 
   const unread = notifications.filter((item) => !readIds.includes(item.id));
   const unreadCount = unread.length;
@@ -106,98 +114,115 @@ export default function DashboardHeader({
         {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
       </div>
       <div className={styles.actions}>
-        <div className={styles.bellWrap}>
-          <button
-            type="button"
-            className={styles.bell}
-            aria-label={dict.common.notifications}
-            aria-expanded={open}
-            aria-haspopup="true"
-            onClick={handleOpen}
-          >
-            🔔
-            {unreadCount > 0 ? (
-              <span className={styles.badge}>
-                {unreadCount > 9 ? '9+' : unreadCount}
-              </span>
-            ) : null}
-          </button>
-
-          {open ? (
-            <div className={styles.dropdown} role="menu">
-              <div className={styles.dropdownHeader}>
-                <strong>{dict.common.notifications}</strong>
+        {loading ? (
+          <div className={styles.authSkeleton} aria-hidden="true" />
+        ) : user ? (
+          <>
+            <div className={styles.bellWrap}>
+              <button
+                type="button"
+                className={styles.bell}
+                aria-label={dict.common.notifications}
+                aria-expanded={open}
+                aria-haspopup="true"
+                onClick={handleOpen}
+              >
+                🔔
                 {unreadCount > 0 ? (
-                  <button
-                    type="button"
-                    className={styles.markAll}
-                    onClick={handleMarkAll}
-                  >
-                    {dict.common.markAllRead}
-                  </button>
+                  <span className={styles.badge}>
+                    {unreadCount > 9 ? '9+' : unreadCount}
+                  </span>
                 ) : null}
-              </div>
+              </button>
 
-              {notifications.length === 0 ? (
-                <p className={styles.empty}>{dict.common.noNotifications}</p>
-              ) : (
-                <ul className={styles.list}>
-                  {notifications.map((item) => {
-                    const isUnread = !readIds.includes(item.id);
-                    return (
-                      <li key={item.id}>
-                        <Link
-                          href={item.href}
-                          className={`${styles.item} ${
-                            isUnread ? styles.itemUnread : ''
-                          }`}
-                          onClick={() => handleOpenItem(item)}
-                        >
-                          <span className={styles.itemIcon} aria-hidden="true">
-                            {notificationIcon(item.kind)}
-                          </span>
-                          <span className={styles.itemBody}>
-                            <span className={styles.itemTitle}>{item.title}</span>
-                            <span className={styles.itemText}>{item.body}</span>
-                            <span className={styles.itemTime}>
-                              {formatNotificationTime(item.createdAt)}
-                            </span>
-                          </span>
-                          {isUnread ? <span className={styles.dot} /> : null}
-                        </Link>
-                      </li>
-                    );
-                  })}
-                </ul>
-              )}
+              {open ? (
+                <div className={styles.dropdown} role="menu">
+                  <div className={styles.dropdownHeader}>
+                    <strong>{dict.common.notifications}</strong>
+                    {unreadCount > 0 ? (
+                      <button
+                        type="button"
+                        className={styles.markAll}
+                        onClick={handleMarkAll}
+                      >
+                        {dict.common.markAllRead}
+                      </button>
+                    ) : null}
+                  </div>
+
+                  {notifications.length === 0 ? (
+                    <p className={styles.empty}>{dict.common.noNotifications}</p>
+                  ) : (
+                    <ul className={styles.list}>
+                      {notifications.map((item) => {
+                        const isUnread = !readIds.includes(item.id);
+                        return (
+                          <li key={item.id}>
+                            <Link
+                              href={item.href}
+                              className={`${styles.item} ${
+                                isUnread ? styles.itemUnread : ''
+                              }`}
+                              onClick={() => handleOpenItem(item)}
+                            >
+                              <span className={styles.itemIcon} aria-hidden="true">
+                                {notificationIcon(item.kind)}
+                              </span>
+                              <span className={styles.itemBody}>
+                                <span className={styles.itemTitle}>{item.title}</span>
+                                <span className={styles.itemText}>{item.body}</span>
+                                <span className={styles.itemTime}>
+                                  {formatNotificationTime(item.createdAt)}
+                                </span>
+                              </span>
+                              {isUnread ? <span className={styles.dot} /> : null}
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </div>
+              ) : null}
             </div>
-          ) : null}
-        </div>
 
-        <div className={styles.userMenu}>
-          <div className={styles.avatar}>
-            {avatarSrc ? (
-              <Image
-                src={avatarSrc}
-                alt=""
-                fill
-                className={styles.avatarImage}
-                sizes="36px"
-                unoptimized={avatarSrc.startsWith('data:')}
-              />
-            ) : (
-              initials
-            )}
+            <div className={styles.userMenu}>
+              <Link href="/profile" className={styles.userLink}>
+                <div className={styles.avatar}>
+                  {avatarSrc ? (
+                    <Image
+                      src={avatarSrc}
+                      alt=""
+                      fill
+                      className={styles.avatarImage}
+                      sizes="36px"
+                      unoptimized={avatarSrc.startsWith('data:')}
+                    />
+                  ) : (
+                    initials
+                  )}
+                </div>
+                <span className={styles.name}>{displayName}</span>
+              </Link>
+              <button
+                type="button"
+                className={styles.logout}
+                onClick={() => logout()}
+              >
+                {dict.common.logout}
+              </button>
+            </div>
+          </>
+        ) : (
+          <div className={styles.guestAuth}>
+            <Link href="/login" className={styles.loginLink}>
+              {dict.common.login}
+            </Link>
+            <Link href="/signup" className={styles.signupLink}>
+              {dict.common.signup}
+            </Link>
           </div>
-          <span className={styles.name}>{displayName}</span>
-          <button
-            type="button"
-            className={styles.logout}
-            onClick={() => logout()}
-          >
-            {dict.common.logout}
-          </button>
-        </div>
+        )}
       </div>
     </header>
   );

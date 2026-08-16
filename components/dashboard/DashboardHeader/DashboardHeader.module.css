@@ -169,6 +169,56 @@
   gap: 8px;
 }
 
+.userLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.userLink:hover .name {
+  color: var(--color-primary);
+}
+
+.authSkeleton {
+  width: 140px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--color-panel-strong);
+}
+
+.guestAuth {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.loginLink {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+}
+
+.loginLink:hover {
+  color: var(--color-primary);
+}
+
+.signupLink {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-inverse);
+  background: var(--color-primary);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+}
+
+.signupLink:hover {
+  background: var(--color-primary-dark);
+}
+
 .avatar {
   position: relative;
   width: 36px;
