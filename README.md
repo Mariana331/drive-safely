@@ -1,7 +1,7 @@
 # DriveSafely
 
 <p align="center">
-  <img src="public/images/smarter/minismarter.png" alt="Smarter mascot" width="120" />
+  <img src="/images/smarter/minismarter.png" alt="Smarter mascot" width="120" />
 </p>
 
 <p align="center">
@@ -15,12 +15,12 @@ AI-powered driver safety platform. Upload road videos for analysis, learn traffi
 
 ## Palette
 
-| Theme | Accent | Swatch |
-| ----- | ------ | ------ |
+| Theme | Accent    | Swatch                                                                          |
+| ----- | --------- | ------------------------------------------------------------------------------- |
 | Light | `#3B82F6` | ![#3B82F6](https://img.shields.io/badge/-3B82F6?style=flat-square&color=3B82F6) |
-| Teal | `#2BB7A9` | ![#2BB7A9](https://img.shields.io/badge/-2BB7A9?style=flat-square&color=2BB7A9) |
+| Teal  | `#2BB7A9` | ![#2BB7A9](https://img.shields.io/badge/-2BB7A9?style=flat-square&color=2BB7A9) |
 | Mauve | `#CFA6B8` | ![#CFA6B8](https://img.shields.io/badge/-CFA6B8?style=flat-square&color=CFA6B8) |
-| Dark | `#111827` | ![#111827](https://img.shields.io/badge/-111827?style=flat-square&color=111827) |
+| Dark  | `#111827` | ![#111827](https://img.shields.io/badge/-111827?style=flat-square&color=111827) |
 
 <p>
   <img src="https://img.shields.io/badge/Light-%233B82F6-3B82F6?style=for-the-badge" alt="Light" />
