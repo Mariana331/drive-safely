@@ -12,6 +12,10 @@ import {
   saveAnalysisSession,
   type AnalysisSession,
 } from '@/lib/analysis/analysisSession';
+import {
+  getAnalysisVideoBlob,
+  getVideoDurationSec,
+} from '@/lib/analysis/analysisVideoStore';
 import styles from './ProcessingPage.module.css';
 
 export default function ProcessingPageClient() {
@@ -56,21 +60,32 @@ export default function ProcessingPageClient() {
 
     if (progress >= 100) {
       const timer = window.setTimeout(() => {
-        if (session.id.startsWith('demo-')) {
-          const demoSession = {
-            ...session,
-            status: 'analyzed' as const,
-            progress: 100,
-            result: buildDemoResult(session.id, session.title),
-          };
-          saveAnalysisSession(demoSession);
-          window.dispatchEvent(new Event('drivesafely:progress-updated'));
-          router.push(`/ai-analysis/results/${session.id}`);
-          return;
-        }
+        void (async () => {
+          const blob = await getAnalysisVideoBlob(session.id);
+          const durationSec = blob
+            ? ((await getVideoDurationSec(blob)) ?? undefined)
+            : undefined;
 
-        const completed = completeAnalysisSession(session.id);
-        if (completed) router.push(`/ai-analysis/results/${completed.id}`);
+          if (session.id.startsWith('demo-')) {
+            const demoSession = {
+              ...session,
+              status: 'analyzed' as const,
+              progress: 100,
+              result: buildDemoResult(session.id, session.title, {
+                fileName: session.fileName,
+                fileSize: session.fileSize,
+                durationSec,
+              }),
+            };
+            saveAnalysisSession(demoSession);
+            window.dispatchEvent(new Event('drivesafely:progress-updated'));
+            router.push(`/ai-analysis/results/${session.id}`);
+            return;
+          }
+
+          const completed = completeAnalysisSession(session.id, { durationSec });
+          if (completed) router.push(`/ai-analysis/results/${completed.id}`);
+        })();
       }, 600);
       return () => window.clearTimeout(timer);
     }

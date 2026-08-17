@@ -48,6 +48,27 @@ export async function getAnalysisVideoBlob(id: string): Promise<Blob | null> {
   }
 }
 
+/** Read media duration from a stored/uploaded blob (browser only). */
+export async function getVideoDurationSec(blob: Blob): Promise<number | null> {
+  if (typeof document === 'undefined') return null;
+
+  return new Promise((resolve) => {
+    const url = URL.createObjectURL(blob);
+    const video = document.createElement('video');
+    video.preload = 'metadata';
+    const finish = (value: number | null) => {
+      URL.revokeObjectURL(url);
+      resolve(value);
+    };
+    video.onloadedmetadata = () => {
+      const duration = video.duration;
+      finish(Number.isFinite(duration) && duration > 0 ? duration : null);
+    };
+    video.onerror = () => finish(null);
+    video.src = url;
+  });
+}
+
 export function parseTimeLabel(label: string): number {
   const parts = label.trim().split(':').map(Number);
   if (parts.some((n) => Number.isNaN(n))) return 0;

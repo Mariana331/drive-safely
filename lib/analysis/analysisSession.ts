@@ -97,13 +97,20 @@ export function saveAnalysisSession(session: AnalysisSession) {
   }
 }
 
-export function completeAnalysisSession(id: string): AnalysisSession | null {
+export function completeAnalysisSession(
+  id: string,
+  options: { durationSec?: number } = {},
+): AnalysisSession | null {
   const session = getAnalysisSession(id);
   if (!session) return null;
 
   session.status = 'analyzed';
   session.progress = 100;
-  session.result = buildDemoResult(id, session.title);
+  session.result = buildDemoResult(id, session.title, {
+    fileName: session.fileName,
+    fileSize: session.fileSize,
+    durationSec: options.durationSec,
+  });
   saveAnalysisSession(session);
   if (typeof window !== 'undefined') {
     window.dispatchEvent(new Event('drivesafely:progress-updated'));

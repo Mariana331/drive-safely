@@ -10,12 +10,17 @@ import { useFavorites, useIsFavorite } from '@/lib/favorites/useFavorites';
 import {
   buildDemoResult,
   formatAnalysisDate,
+  riskLabel,
   type AnalysisResult,
   type ViolationSeverity,
 } from '@/lib/analysis/analysisData';
-import { getAnalysisSession } from '@/lib/analysis/analysisSession';
+import {
+  getAnalysisSession,
+  saveAnalysisSession,
+} from '@/lib/analysis/analysisSession';
 import {
   getAnalysisVideoBlob,
+  getVideoDurationSec,
   parseTimeLabel,
 } from '@/lib/analysis/analysisVideoStore';
 import styles from './ResultsPage.module.css';
@@ -36,21 +41,46 @@ export default function ResultsPageClient() {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [videoMissing, setVideoMissing] = useState(false);
+  const [durationSec, setDurationSec] = useState(0);
 
   useEffect(() => {
-    const session = getAnalysisSession(params.id);
-    if (session?.result) {
-      setResult(session.result);
-      setActiveId(session.result.violations[0]?.id ?? null);
-      return;
-    }
+    let cancelled = false;
 
-    // Demo fallback for seeded recent items
-    if (params.id.startsWith('demo-')) {
-      const demo = buildDemoResult(params.id, 'City Center Drive');
-      setResult(demo);
-      setActiveId(demo.violations[0]?.id ?? null);
-    }
+    (async () => {
+      const session = getAnalysisSession(params.id);
+      const blob = await getAnalysisVideoBlob(params.id);
+      const durationSec = blob
+        ? ((await getVideoDurationSec(blob)) ?? undefined)
+        : undefined;
+
+      if (cancelled) return;
+
+      if (session) {
+        const rebuilt = buildDemoResult(session.id, session.title, {
+          fileName: session.fileName,
+          fileSize: session.fileSize,
+          durationSec,
+        });
+        session.status = 'analyzed';
+        session.result = rebuilt;
+        saveAnalysisSession(session);
+        setResult(rebuilt);
+        setActiveId(rebuilt.violations[0]?.id ?? null);
+        return;
+      }
+
+      if (params.id.startsWith('demo-')) {
+        const demo = buildDemoResult(params.id, 'City Center Drive', {
+          durationSec,
+        });
+        setResult(demo);
+        setActiveId(demo.violations[0]?.id ?? null);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
   }, [params.id]);
 
   useEffect(() => {
@@ -176,6 +206,12 @@ export default function ResultsPageClient() {
     }
   };
 
+  const clipDuration = Math.max(
+    durationSec,
+    ...(result?.violations.map((v) => parseTimeLabel(v.timeLabel)) ?? [0]),
+    1,
+  );
+
   return (
     <>
       <DashboardHeader
@@ -185,6 +221,9 @@ export default function ResultsPageClient() {
 
       <div className={styles.page}>
         <div className={styles.topActions}>
+          <Link href="/ai-analysis" className={styles.uploadNewBtn}>
+            Upload New Video
+          </Link>
           <button
             type="button"
             className={`${styles.ghostBtn} ${saved ? styles.favActive : ''}`}
@@ -222,6 +261,12 @@ export default function ResultsPageClient() {
                     controls
                     playsInline
                     preload="metadata"
+                    onLoadedMetadata={(event) => {
+                      const duration = event.currentTarget.duration;
+                      if (Number.isFinite(duration) && duration > 0) {
+                        setDurationSec(duration);
+                      }
+                    }}
                   />
                 ) : (
                   <div className={styles.playerFallback}>
@@ -253,8 +298,11 @@ export default function ResultsPageClient() {
                       }`}
                       style={{
                         left: `${Math.min(
-                          90,
-                          10 + result.violations.indexOf(v) * 28,
+                          96,
+                          Math.max(
+                            2,
+                            (parseTimeLabel(v.timeLabel) / clipDuration) * 100,
+                          ),
                         )}%`,
                       }}
                       onClick={() => selectViolation(v.id)}
@@ -305,7 +353,7 @@ export default function ResultsPageClient() {
             <section className={styles.riskCard}>
               <h2>Risk Score</h2>
               <div className={styles.riskValue}>{result.riskScore.toFixed(1)}</div>
-              <p>Moderate risk — review the flagged moments below.</p>
+              <p>{riskLabel(result.riskScore)}</p>
             </section>
 
             <section className={styles.card}>
@@ -324,7 +372,10 @@ export default function ResultsPageClient() {
 
             <section className={styles.nextCard}>
               <h2>Next Steps</h2>
-              <Link href="/tests" className={styles.primaryBtn}>
+              <Link href="/ai-analysis" className={styles.primaryBtn}>
+                Upload New Video
+              </Link>
+              <Link href="/tests" className={styles.secondaryBtn}>
                 Take Practice Test
               </Link>
               <Link href="/assistant" className={styles.secondaryBtn}>
@@ -339,10 +390,7 @@ export default function ResultsPageClient() {
               <div className={styles.funFactIcon}>💡</div>
               <div className={styles.funFactBody}>
                 <strong>Fun fact</strong>
-                <p>
-                  Checking mirrors every 5–8 seconds helps you spot risks before
-                  they become emergencies.
-                </p>
+                <p>{result.tip}</p>
               </div>
               <Image
                 src="/images/smarter/smarter.png"
