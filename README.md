@@ -1,7 +1,7 @@
 # DriveSafely
 
 <p align="center">
-  <img src="/images/smarter/minismarter.png" alt="Smarter mascot" width="120" />
+  <img src="public/images/smarter/minismarter.png" alt="Smarter mascot" width="120" />
 </p>
 
 <p align="center">
